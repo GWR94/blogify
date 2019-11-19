@@ -1,6 +1,6 @@
 # Blogify
 
-A React 16 project application built after completing Andrew Mead's React course on Udemy. It's simply a blogging app which allows you to login through various social media accounts, or alternatively search through other peoples posts.
+A React 16 project application which is simply a blogging app which allows you to login through various social media accounts, or alternatively search through other peoples posts.
 
 It's a work in progress, and was built solely to test my React and Redux capabilities.
 
