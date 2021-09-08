@@ -1,25 +1,60 @@
 .form {
-    display: flex;
-    flex-direction: column;
-    > * {
-        margin-bottom: $m-size;
-    }
-    margin-bottom: $xl-size;
+  display: flex;
+  flex-direction: column;
+}
+
+.form__authorContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  margin: 12px 0;
+}
+
+.form__buttonContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 10px auto 40px;
 }
 
 .form__error {
-    margin: 0 0 $m-size 0;
-    font-style: italic
+  margin: 0 0 $m-size 0;
+  font-style: italic;
+}
+
+.filters__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 600px;
+  margin: 0 auto;
+  @media screen and (max-width: 620px) {
+    width: 80%;
+  }
+}
+
+.filters__outerContainer {
+  background: #f7f7f7;
+  padding: 20px 0;
+  margin: 20px 0;
+}
+
+.DateRangePickerInput {
+  border-radius: 5px !important;
+  height: 100%;
 }
 
 #editor {
-    padding-bottom: 2px;
+  padding-bottom: 2px;
 }
 
 #editor > .ql-container {
-    min-height: 400px;
+  min-height: 400px;
 }
 
 .readOnlyEditor > .ql-container {
-    border: none;
+  border: none;
 }

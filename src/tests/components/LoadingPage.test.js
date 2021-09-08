@@ -1,8 +1,8 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import LoadingPage from '../../components/LoadingPage';
+import React from "react";
+import { shallow } from "enzyme";
+import LoadingPage from "../../components/common/LoadingPage";
 
-test('should render the LoadingPage component properly', () => {
-    const wrapper = shallow(<LoadingPage />);
-    expect(wrapper).toMatchSnapshot();
+test("should render the LoadingPage component properly", () => {
+  const wrapper = shallow(<LoadingPage />);
+  expect(wrapper).toMatchSnapshot();
 });

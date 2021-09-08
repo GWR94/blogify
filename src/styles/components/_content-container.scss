@@ -1,8 +1,14 @@
 .content-container {
-    max-width: 80rem;
-    margin: 0 auto;
-    padding: 0 $m-size;
-    span {
-        font-weight: bold;
-    }
+  width: 80%;
+  margin: 0 auto;
+  padding: 0 $m-size;
+  span {
+    font-weight: bold;
+  }
+  @media (max-width: 600px) {
+    width: 90%;
+  }
+  @media (max-width: 600px) {
+    width: 95%;
+  }
 }

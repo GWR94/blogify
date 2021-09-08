@@ -1,0 +1,75 @@
+type User
+  @model(
+    queries: { get: "getUser" }
+    mutations: { create: "registerUser", update: "updateUser", delete: "deleteUser" }
+    subscriptions: null
+  )
+  @auth(
+    rules: [
+      { allow: owner, identityClaim: "sub", operations: [create, read, update, delete] }
+      { allow: private, provider: userPools, operations: [read] }
+      { allow: public, provider: iam, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  username: String!
+  email: String!
+  name: String!
+  following: [String]!
+  followers: [String]!
+  savedPosts: [String]
+  profileImage: S3Image
+  posts: [Post] @connection(keyName: "byUser", fields: ["id"])
+}
+
+type Post
+  @model
+  @key(name: "byUser", fields: ["userID"])
+  @auth(
+    rules: [
+      {
+        allow: owner
+        ownerField: "userID"
+        identityClaim: "sub"
+        operations: [create, read, update, delete]
+      }
+      { allow: private, provider: userPools, operations: [read] }
+      { allow: public, provider: iam, operations: [read] }
+    ]
+  ) {
+  author: String!
+  body: String!
+  email: String!
+  id: ID!
+  overview: String!
+  tags: [String]!
+  public: Boolean
+  title: String!
+  userID: ID
+  user: User @connection(name: "byUser", fields: ["userID"])
+  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+}
+
+type Comment
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "userID", identityClaim: "sub" }
+      { allow: private, provider: userPools, operations: [read] }
+      { allow: public, provider: iam, operations: [read] }
+    ]
+  )
+  @key(name: "byPost", fields: ["postID", "content"]) {
+  id: ID!
+  postID: ID!
+  likes: [String]!
+  post: Post @connection(fields: ["postID"])
+  content: String!
+  userID: ID
+}
+
+type S3Image {
+  key: String!
+  bucket: String!
+  region: String!
+}

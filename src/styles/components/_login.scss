@@ -1,0 +1,70 @@
+.button__login {
+	background: $blue;
+	border: none;
+	color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+	font-weight: 300;
+  height: 40px;
+  width: 40px;
+	line-height: 1;
+	text-decoration: none;
+	border-radius: 5px;
+  margin: 0 3px 10px;
+  &--facebook {
+    @extend .button__login;
+    background: #4761a2;
+  }
+  &--google {
+    @extend .button__login;
+    background: #ff4242;
+  }
+  &--amazon {
+    @extend .button__login;
+    background: #FF9900;
+  }
+  > i {
+    font-size: 1.2rem;
+  }
+}
+
+.login__divider {
+  display: relative !important;
+}
+
+.login__orText {
+  display: absolute;
+  left: calc(50% - 10px);
+  background: #fff;
+  color: rgba(0,0,0,0.7);
+}
+
+.login__buttonContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.login__modal--container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0 40px;
+}
+
+.login__modal--title {
+  padding: 10px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.login__modal--divider {
+  width: 70%;
+  margin: 0 auto 16px !important;
+}

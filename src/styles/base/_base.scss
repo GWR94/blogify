@@ -2,15 +2,11 @@
   box-sizing: border-box;
 }
 
-html {
-  font-size: 62.5%;
-}
-
 body {
   color: $dark-grey;
   font-size: $m-size;
   line-height: 1.6;
-  font-family: 'Roboto', serif !important;          
+  font-family: "Roboto", serif !important;
 }
 
 button {
