@@ -1,0 +1,29 @@
+{
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-blogify-prod-94623-authRole",
+      "UnauthRoleArn": "arn:aws:iam::971259243149:role/amplify-blogify-prod-94623-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::971259243149:role/amplify-blogify-prod-94623-authRole",
+      "Region": "eu-west-2",
+      "DeploymentBucketName": "amplify-blogify-prod-94623-deployment",
+      "UnauthRoleName": "amplify-blogify-prod-94623-unauthRole",
+      "StackName": "amplify-blogify-prod-94623",
+      "StackId": "arn:aws:cloudformation:eu-west-2:971259243149:stack/amplify-blogify-prod-94623/4056d1e0-1081-11ec-a935-02c61ff72590",
+      "AmplifyAppId": "d3r3c1rb4h0g26"
+    },
+    "categories": {
+      "auth": {
+        "blogifyea72a052": {}
+      },
+      "function": {
+        "api": {
+          "deploymentBucketName": "amplify-blogify-prod-94623-deployment",
+          "s3Key": "amplify-builds/api-7133327770434474767a-build.zip",
+          "accessKeyAws": "AKIAINZ2PHSFPVBZ7XDA",
+          "secretKeyAws": "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",
+          "tableName": "User-oshlqim42raxvbnyjlsexxutzq-prod"
+        }
+      }
+    }
+  }
+}
