@@ -30,13 +30,20 @@ const DeleteDialog = ({
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         {Array.isArray(text) ? (
+          // if text is an array, map the items to an individual DialogContentText component
           text.map((value, i) => <DialogContentText key={i}>{value}</DialogContentText>)
         ) : (
           <DialogContentText>{text}</DialogContentText>
         )}
       </DialogContent>
       <DialogActions>
-        <Button color="primary" onClick={confirmFunc}>
+        <Button
+          color="primary"
+          onClick={(): void => {
+            confirmFunc();
+            onClose();
+          }}
+        >
           Yes
         </Button>
         <Button color="secondary" onClick={denyFunc}>

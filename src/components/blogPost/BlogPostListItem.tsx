@@ -12,7 +12,7 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { MoreVertRounded } from "@material-ui/icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { API, graphqlOperation } from "aws-amplify";
 import { useHistory } from "react-router-dom";
 import { AppState, GraphQLResult } from "../../store/store";
@@ -22,7 +22,9 @@ import { S3Image } from "../auth/Profile";
 import UserImageLinked from "../common/UserImageLinked";
 import { breakpoints } from "../../utils";
 import DeleteDialog from "../common/DeleteDialog";
-import placeholder from "../auth/img/placeholder.png";
+import { deletePost } from "../../graphql/mutations";
+import { openSnackbar } from "../../utils/components/Notifier";
+import * as actions from "../../actions/posts.action";
 
 const BlogPostListItem = ({
   id,
@@ -35,22 +37,24 @@ const BlogPostListItem = ({
   userID,
 }: Post): JSX.Element => {
   const { uid } = useSelector(({ auth }: AppState) => auth);
-  const history = useHistory();
-  const [image, setImage] = useState<S3Image>();
 
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [image, setImage] = useState<S3Image>();
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const anchorRef = React.useRef(null);
   const mobile = useMediaQuery(breakpoints.only("xs"));
 
-  console.log(userID);
-
+  // get post authors data when the component mounts
   useEffect(() => {
     const getUserData = async (): Promise<void> => {
       const { data } = (await API.graphql({
         query: getUser,
         variables: { id: userID },
+        // @ts-expect-error - no enum for authMode
         authMode: "AWS_IAM",
       })) as GraphQLResult<{ getUser: { profileImage: S3Image } }>;
       if (data) {
@@ -60,8 +64,17 @@ const BlogPostListItem = ({
     getUserData();
   }, []);
 
-  const handleDeletePost = async () => {
-    console.log("TODO");
+  const handleDeletePost = async (): Promise<void> => {
+    try {
+      await API.graphql(graphqlOperation(deletePost, { input: { id } }));
+      dispatch(actions.removePost(id as string));
+    } catch (err) {
+      openSnackbar({
+        message: "Unable to Delete Post. Please Try Again.",
+        severity: "error",
+      });
+      console.error(err);
+    }
   };
 
   return (
@@ -83,6 +96,7 @@ const BlogPostListItem = ({
           )}
           <div
             style={{
+              // give margin if user is authenticated to allow menu IconButton to not overlap
               marginRight: uid ? 20 : 0,
             }}
           >

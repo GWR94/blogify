@@ -15,8 +15,6 @@ interface UserImageLinkedProps {
 }
 
 const UserImageLinked = ({ userID, size }: UserImageLinkedProps): JSX.Element => {
-  console.log(userID);
-
   const [isLoading, setLoading] = useState(true);
   const [imgLoading, setImgLoading] = useState(true);
   const [isOpen, setOpen] = useState(false);

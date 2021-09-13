@@ -34,6 +34,7 @@ const BlogDashboardPage: React.FC = (): JSX.Element => {
         const { data } = (await API.graphql({
           query: getUser,
           variables: { id: uid, limit: 5 },
+          // @ts-expect-error - no authMode enum
           authMode: "AWS_IAM",
         })) as GraphQLResult<{ getUser: User }>;
         following = data?.getUser?.following ?? [];
@@ -52,6 +53,7 @@ const BlogDashboardPage: React.FC = (): JSX.Element => {
               },
               limit: 5,
             },
+            // @ts-expect-error - no authMode enum
             authMode: "AWS_IAM",
           })) as GraphQLResult<{ listPosts: { items: Post[]; nextToken: string } }>;
           if (data?.listPosts) {
@@ -72,10 +74,9 @@ const BlogDashboardPage: React.FC = (): JSX.Element => {
                 },
               })),
             },
-            limit: 10,
+            limit: 5,
           }),
         )) as GraphQLResult<{ listPosts: { items: Post[]; nextToken: string } }>;
-        console.log(data?.listPosts);
 
         if (data?.listPosts) {
           dispatch(actions.setPosts(data.listPosts.items, data.listPosts.nextToken));

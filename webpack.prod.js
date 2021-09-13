@@ -12,6 +12,7 @@ module.exports = merge(common, {
       chunkFilename: "[id].[hash].css",
     }),
   ],
+  devtool: "source-map",
   optimization: {
     runtimeChunk: "single",
     splitChunks: {
@@ -50,6 +51,12 @@ module.exports = merge(common, {
           },
           "css-loader",
         ],
+      },
+      {
+        test: /\.jsx?$/,
+        use: ["source-map-loader"],
+        enforce: "pre",
+        exclude: [path.resolve(__dirname, "./node_modules")],
       },
     ],
   },

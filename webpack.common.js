@@ -3,8 +3,6 @@ const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const isProduction = process.env.NODE_ENV || "development";
-
 module.exports = {
   entry: "./src/app.tsx",
   resolve: {
@@ -47,5 +45,4 @@ module.exports = {
     }),
     new webpack.EnvironmentPlugin([]),
   ],
-  devtool: isProduction ? "source-map" : "inline-source-map",
 };

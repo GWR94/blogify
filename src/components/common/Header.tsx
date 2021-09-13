@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { API, Auth } from "aws-amplify";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Headroom from "react-headroom";
 import {
   AppBar,
@@ -8,14 +8,11 @@ import {
   ClickAwayListener,
   Collapse,
   Container,
-  IconButton,
-  InputAdornment,
-  OutlinedInput,
   Typography,
   useMediaQuery,
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { LibraryBooksRounded, MenuRounded, SearchRounded } from "@material-ui/icons";
+import { LibraryBooksRounded, MenuRounded } from "@material-ui/icons";
 import { AppState } from "../../store/store";
 import LoginModal from "../auth/LoginModal";
 import { openSnackbar } from "../../utils/components/Notifier";
@@ -23,6 +20,7 @@ import { breakpoints } from "../../utils";
 import { listPosts } from "../../graphql/queries";
 import * as authActions from "../../actions/auth.action";
 import * as postActions from "../../actions/posts.action";
+import SearchAutoComplete from "./SearchAutoComplete";
 
 const Header: React.FC = (): JSX.Element => {
   const history = useHistory();
@@ -52,22 +50,6 @@ const Header: React.FC = (): JSX.Element => {
     }
   };
 
-  const handleSearch = async (): Promise<void> => {
-    const { data } = await API.graphql({
-      query: listPosts,
-      variables: {
-        filter: {
-          tags: {
-            contains: capitalize(searchQuery),
-          },
-        },
-      },
-    });
-    console.log(data.listPosts.items);
-    dispatch(postActions.setPosts(data.listPosts.items, data.listPosts.nextToken));
-    setQuery("");
-    history.push("/search");
-  };
   return (
     <>
       <ClickAwayListener onClickAway={(): void => setNavOpen(false)}>
@@ -110,25 +92,7 @@ const Header: React.FC = (): JSX.Element => {
                     />
                   </div>
                   <div className="header__search--container">
-                    {!mobile && (
-                      <OutlinedInput
-                        id="searchField"
-                        margin="dense"
-                        className="header__search"
-                        classes={{
-                          root: "header__search--root",
-                          input: "header__label--root",
-                        }}
-                        placeholder="Search Topic..."
-                        value={searchQuery}
-                        onChange={(e): void => setQuery(e.target.value)}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <SearchRounded onClick={handleSearch} />
-                          </InputAdornment>
-                        }
-                      />
-                    )}
+                    {!mobile && <SearchAutoComplete redirect />}
                     <MenuRounded
                       onClick={(): void => setNavOpen(!navOpen)}
                       style={{ color: "#fff", marginLeft: 20 }}
@@ -139,26 +103,7 @@ const Header: React.FC = (): JSX.Element => {
               <Collapse in={navOpen}>
                 {uid ? (
                   <div className="header__collapsed">
-                    {mobile && (
-                      <OutlinedInput
-                        id="searchField"
-                        margin="dense"
-                        className="header__search"
-                        classes={{
-                          root: "header__search--root",
-                          input: "header__label--root",
-                        }}
-                        placeholder="Search..."
-                        value={searchQuery}
-                        onChange={(e): void => setQuery(e.target.value)}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <SearchRounded onClick={handleSearch} />
-                          </InputAdornment>
-                        }
-                        style={{ marginBottom: 20 }}
-                      />
-                    )}
+                    {mobile && <SearchAutoComplete redirect />}
                     <div
                       className="header__link"
                       tabIndex={0}
