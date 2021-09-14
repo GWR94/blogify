@@ -29,7 +29,7 @@ export interface Post {
   body: string;
   email: string;
   id?: string;
-  createdAt: string;
+  createdAt?: string;
   overview: string;
   tags: string[];
   title: string;

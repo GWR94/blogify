@@ -77,7 +77,7 @@ const BlogPostForm: React.FC<BlogPostFormProps> = ({ post, onSubmit }): JSX.Elem
     return validated;
   };
 
-  const onHandleSubmit = (e): void => {
+  const onHandleSubmit = (e: any): void => {
     e.preventDefault();
     const validated = handleValidation();
     if (!validated) return;
@@ -164,9 +164,6 @@ const BlogPostForm: React.FC<BlogPostFormProps> = ({ post, onSubmit }): JSX.Elem
                 tags: tags.sort((a, b) => -b.slice(0, 1).localeCompare(a.slice(0, 1))),
               };
             });
-          }}
-          classes={{
-            tag: null, // todo
           }}
           renderInput={(params): JSX.Element => (
             <TextField
