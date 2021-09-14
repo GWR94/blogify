@@ -41,16 +41,8 @@ module.exports = merge(common, {
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              injectType: "singletonStyleTag",
-            },
-          },
-          "css-loader",
-        ],
+        test: /\.(scss|css)$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.jsx?$/,
