@@ -25,7 +25,6 @@ interface BlogPostListProps {
 const BlogPostList = ({ isLoading, setViewPosts }: BlogPostListProps): JSX.Element => {
   // retrieve posts and nextToken from store
   const { posts, nextToken } = useSelector(({ posts }: AppState) => posts);
-
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -81,8 +80,13 @@ const BlogPostList = ({ isLoading, setViewPosts }: BlogPostListProps): JSX.Eleme
       ) : (
         posts.map((post) => <BlogPostListItem key={post.id} {...post} />)
       )}
-      {nextToken && (
-        <Button color="primary" variant="outlined" onClick={handleLoadNextPosts}>
+      {nextToken && posts.length > 0 && (
+        <Button
+          color="info"
+          variant="outlined"
+          onClick={handleLoadNextPosts}
+          style={{ marginBottom: 20 }}
+        >
           Load More Posts
         </Button>
       )}

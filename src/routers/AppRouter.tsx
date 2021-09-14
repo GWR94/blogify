@@ -10,24 +10,25 @@ import * as actions from "../actions/auth.action";
 import AddPost from "../components/post/AddPost";
 import EditPost from "../components/post/EditPost";
 import ReadPost from "../components/post/ReadPost";
-import { AppState, GraphQLResult } from "../store/store";
-import { getUser } from "../graphql/queries";
+import { AppState } from "../store/store";
 import { registerUser } from "../graphql/mutations";
 import { HubCapsule, SignInUserData } from "./router.i";
 import Profile from "../components/auth/Profile";
 import awsExports from "../aws-exports";
 import SearchResults from "../components/common/SearchResults";
-import { User } from "../API";
-import { CircularProgress } from "@material-ui/core";
+import { getUserData } from "../utils";
+import Loading from "../components/common/Loading";
 
 export const history = createHistory();
 
 const AppRouter = (): JSX.Element => {
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const { uid } = useSelector(({ auth }: AppState) => auth);
 
-  const getUserData = async (): Promise<boolean> => {
+  const getAuthData = async (): Promise<void> => {
+    setLoading(true);
     try {
       if (!uid) {
         const user = await Auth.currentAuthenticatedUser();
@@ -38,14 +39,13 @@ const AppRouter = (): JSX.Element => {
         if (user) {
           dispatch(actions.login(id, user.attributes.name, user.attributes.email));
           setLoading(false);
-          return true;
+          return;
         }
       }
     } catch (err) {
       console.log(err);
     }
     setLoading(false);
-    return false;
   };
 
   /**
@@ -57,7 +57,8 @@ const AppRouter = (): JSX.Element => {
   const registerNewUser = async (
     signInData: SignInUserData | undefined,
   ): Promise<void> => {
-    console.log(signInData);
+    setLoading(true);
+
     /**
      * Get the id from signInData - it's in different locations based on what provider user
      * logged in with. This will be used to check if the user is already a part of the database
@@ -68,30 +69,23 @@ const AppRouter = (): JSX.Element => {
       signInData?.id ??
       signInData?.signInUserSession?.idToken?.payload?.sub;
 
-    console.log(id);
-
     const name = signInData?.signInUserSession.idToken.payload.name;
     const email =
       signInData?.email ?? signInData?.signInUserSession.idToken.payload.email;
 
     // check to see if the user is in the database
     try {
-      const { data } = (await API.graphql({
-        query: getUser,
-        variables: { id },
-        // @ts-expect-error - no enum for authMode
-        authMode: "AWS_IAM",
-      })) as GraphQLResult<{ getUser: User }>;
-      if (data?.getUser) {
+      const user = await getUserData(id as string);
+      if (user) {
         dispatch(
           actions.updateUser({
-            followers: (data.getUser?.followers as string[]) ?? [],
-            following: (data.getUser?.following as string[]) ?? [],
+            followers: (user.followers as string[]) ?? [],
+            following: (user.following as string[]) ?? [],
           }),
         );
+        return;
       }
       // if data.getUser is not null, then the user is in the database
-      if (!data?.getUser) return;
       /**
        * spread the getUserInput object into a new variable, and add the username and email
        * from signInData to it. Then set registered to true so the database holds valid
@@ -124,11 +118,10 @@ const AppRouter = (): JSX.Element => {
   };
 
   const onHubCapsule = async (capsule: HubCapsule): Promise<void> => {
-    console.log(capsule.payload);
     switch (capsule.payload.event) {
       case "signIn": {
         await registerNewUser(capsule.payload.data);
-        await getUserData();
+        await getAuthData();
         break;
       }
       case "signOut":
@@ -146,7 +139,9 @@ const AppRouter = (): JSX.Element => {
     };
   }, []);
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Router history={history}>
       <div>
         <Switch>

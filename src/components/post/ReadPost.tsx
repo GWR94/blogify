@@ -11,6 +11,7 @@ import * as actions from "../../actions/posts.action";
 import { Comment } from "../../store/posts.i";
 import { getPost } from "../../graphql/queries";
 import { GraphQLResult } from "../../store/store";
+import Loading from "../common/Loading";
 
 interface ReadPostProps {
   id: string;
@@ -37,15 +38,17 @@ const ReadPost = ({ id }: ReadPostProps): JSX.Element => {
   }, []);
 
   return !post ? (
-    <CircularProgress size={20} />
+    <Loading />
   ) : (
     <>
       <Header />
       <div className="content-container">
-        <Typography variant="h4" style={{ marginTop: 10 }}>
+        <Typography variant="h4" className="app__title" style={{ marginTop: 10 }}>
           {post.title}
         </Typography>
-        <Typography variant="h6">{post.overview}</Typography>
+        <Typography variant="h6" className="app__subtitle">
+          {post.overview}
+        </Typography>
         <ReadQuillEditor passedBody={post.body} />
         <Typography variant="subtitle1">- created by {post.author}</Typography>
         <Typography variant="subtitle1">

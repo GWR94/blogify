@@ -158,13 +158,12 @@ const BlogPostListItem = ({
               <UserImageLinked userID={userID as string} size={mobile ? 40 : 60} />
             )}
             <div>
-              <Typography>
+              <Typography className="list__author--text">
                 Written by <em>{author}</em>
               </Typography>
-              <Typography>
+              <Typography className="list__author--text">
                 on <span> {moment(createdAt).format("DD MMMM, YYYY")}</span>
               </Typography>
-              {email && <Typography> -{email}</Typography>}
             </div>
           </div>
         </div>

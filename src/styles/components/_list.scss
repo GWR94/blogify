@@ -173,6 +173,16 @@
   }
 }
 
+.list__author--text {
+  font-size: 1.1rem !important;
+  @media (max-width: $md-breakpoint) {
+    font-size: 1rem !important;
+  }
+  @media (max-width: $sm-breakpoint) {
+    font-size: 0.9rem !important;
+  }
+}
+
 .pages {
   display: flex;
   align-items: middle;

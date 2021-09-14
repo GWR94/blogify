@@ -58,3 +58,25 @@
 .readOnlyEditor > .ql-container {
   border: none;
 }
+
+.app__title {
+  font-weight: 00 !important;
+  font-size: 2rem !important;
+  @media (max-width: $md-breakpoint) {
+    font-size: 1.8rem !important;
+  }
+  @media (max-width: $sm-breakpoint) {
+    font-size: 1.6rem !important;
+  }
+}
+
+.app__subtitle {
+  font-size: 1.6rem !important;
+  @media (max-width: $md-breakpoint) {
+    font-size: 1.4rem !important;
+  }
+  @media (max-width: $sm-breakpoint) {
+    font-size: 1.2rem !important;
+  }
+  color: rgba(0, 0, 0, 0.6);
+}

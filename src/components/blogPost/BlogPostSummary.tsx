@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { CircularProgress, Typography, useMediaQuery } from "@material-ui/core";
 import { AmplifyS3Image } from "@aws-amplify/ui-react";
 import { useSelector } from "react-redux";
-import Button from "../../utils/components/MuiButton";
-import { AppState } from "../../store/store";
-import { breakpoints, getUserData } from "../../utils";
-import { User } from "../auth/Profile";
-import { AddCircle, CommentSharp, CreateOutlined } from "@material-ui/icons";
+import { CreateOutlined } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
-import placeholder from "../auth/img/placeholder.png";
 import { API, graphqlOperation } from "aws-amplify";
+import Button from "../../utils/components/MuiButton";
+import { AppState, GraphQLResult } from "../../store/store";
+import { breakpoints } from "../../utils";
+import { User } from "../auth/Profile";
+import placeholder from "../auth/img/placeholder.png";
 import { getUser } from "../../graphql/queries";
 
 interface BlogPostSummaryProps {
@@ -30,13 +30,14 @@ const BlogPostSummary = ({
 
   useEffect((): void => {
     const getUserData = async (): Promise<void> => {
-      const { data } = await API.graphql(
+      const { data } = (await API.graphql(
         graphqlOperation(getUser, {
           id: uid,
         }),
-      );
-      console.log(data.getUser);
-      setUser(data.getUser);
+      )) as GraphQLResult<{ getUser: User }>;
+      if (data?.getUser) {
+        setUser(data.getUser);
+      }
       setLoading(false);
     };
     getUserData();

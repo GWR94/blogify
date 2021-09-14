@@ -37,14 +37,14 @@ const SearchAutoComplete = ({
     "JavaScript",
     "TypeScript",
     "CSS",
-    "Styles",
+    "Solidity",
+    "Blockchain",
+    "Crypto",
     "Strings",
     "Optimization",
-    "CSS Frameworks",
   ];
 
   useEffect(() => {
-    console.log(query);
     // if query prop is passed, set it into state
     if (query) setQuery(query);
   }, []);

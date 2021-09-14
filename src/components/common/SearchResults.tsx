@@ -13,9 +13,11 @@ import Header from "./Header";
 import SearchAutoComplete from "./SearchAutoComplete";
 import * as actions from "../../actions/posts.action";
 import { Post } from "../../store/posts.i";
+import Loading from "./Loading";
 
 const SearchResults = (): JSX.Element => {
   // retrieve posts, nextToken and uid from store
+  const [isLoading, setLoading] = useState(true);
   const { posts, nextToken } = useSelector(({ posts }: AppState) => posts);
   const { uid } = useSelector(({ auth }: AppState) => auth);
 
@@ -31,6 +33,7 @@ const SearchResults = (): JSX.Element => {
     const params = new URLSearchParams(window.location.search);
     const query = params.get("query");
     if (query) setQuery(query);
+    setLoading(false);
   }, []);
 
   const handleLoadNextPosts = async (): Promise<void> => {
@@ -44,14 +47,23 @@ const SearchResults = (): JSX.Element => {
     }
   };
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <div>
         <Header />
         <div className="search__header">
           <Container>
-            <Typography variant="h4">Search Posts</Typography>
-            <SearchAutoComplete query={searchQuery} />
+            <Typography variant="h4" className="app__title">
+              Search Posts
+            </Typography>
+            <Typography variant="subtitle2">
+              Search through a variety of topics by inputting your criteria below
+            </Typography>
+            <div className="search__input--container">
+              <SearchAutoComplete query={searchQuery} />
+            </div>
           </Container>
         </div>
         <Container>
@@ -101,7 +113,12 @@ const SearchResults = (): JSX.Element => {
             </Paper>
           )}
           {nextToken && (
-            <Button color="info" onClick={handleLoadNextPosts}>
+            <Button
+              color="info"
+              variant="outlined"
+              onClick={handleLoadNextPosts}
+              style={{ marginBottom: 20 }}
+            >
               Load More Posts
             </Button>
           )}

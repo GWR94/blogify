@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { API, graphqlOperation } from "aws-amplify";
 import { useHistory } from "react-router-dom";
+import { Container, Typography } from "@material-ui/core";
 import BlogPostForm from "../common/BlogPostForm";
 import * as actions from "../../actions/posts.action";
-import { AppState } from "../../store/store";
+import { AppState, GraphQLResult } from "../../store/store";
 import { Post } from "../../store/posts.i";
 import Header from "../common/Header";
 import { updatePost } from "../../graphql/mutations";
 import { openSnackbar } from "../../utils/components/Notifier";
-import { Container } from "@material-ui/core";
 
 interface EditPostProps {
   id: string;
@@ -35,14 +35,14 @@ const EditPostPage = ({ id }: EditPostProps): JSX.Element => {
 
   const onSubmit = async (post: Post): Promise<void> => {
     try {
-      const { data } = await API.graphql(
+      const { data } = (await API.graphql(
         graphqlOperation(updatePost, {
           input: {
             id,
             ...post,
           },
         }),
-      );
+      )) as GraphQLResult<{ updatePost: Post }>;
       dispatch(actions.editPost(id, post));
       console.log(data);
 
@@ -65,7 +65,9 @@ const EditPostPage = ({ id }: EditPostProps): JSX.Element => {
       <Header />
       <div className="page-header">
         <Container>
-          <h1 className="page-header__title">Edit Post</h1>
+          <Typography variant="h5" className="app__title">
+            Edit Post
+          </Typography>
         </Container>
       </div>
       <Container>

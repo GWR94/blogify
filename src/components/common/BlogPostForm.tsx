@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import "react-quill/dist/quill.snow.css";
-import { TextField, Grid, Checkbox, FormControlLabel } from "@material-ui/core";
+import {
+  Container,
+  TextField,
+  Grid,
+  Checkbox,
+  FormControlLabel,
+} from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
+import { API, graphqlOperation } from "aws-amplify";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import QuillEditor from "./QuillEditor";
 import { BlogPostFormProps, BlogPostFormState } from "../../interfaces/BlogPostForm.i";
 import Button from "../../utils/components/MuiButton";
 import { openSnackbar } from "../../utils/components/Notifier";
-import { useHistory } from "react-router-dom";
-import { API, graphqlOperation } from "aws-amplify";
 import { deletePost } from "../../graphql/mutations";
-import { useDispatch } from "react-redux";
 import * as actions from "../../actions/posts.action";
-import { Container } from "@material-ui/core";
 
 const BlogPostForm: React.FC<BlogPostFormProps> = ({ post, onSubmit }): JSX.Element => {
   const history = useHistory();
@@ -232,7 +237,7 @@ const BlogPostForm: React.FC<BlogPostFormProps> = ({ post, onSubmit }): JSX.Elem
           {post ? "Remove Post" : "Cancel"}
         </Button>
         <Button onClick={onHandleSubmit} color="primary" variant="contained">
-          {post ? "Save Post" : "Add Post"}
+          {post ? "Save Post" : "Create Post"}
         </Button>
       </div>
     </Container>

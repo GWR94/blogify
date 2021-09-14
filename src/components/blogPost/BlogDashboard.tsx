@@ -51,7 +51,7 @@ const BlogDashboardPage: React.FC = (): JSX.Element => {
                   eq: true,
                 },
               },
-              limit: 5,
+              limit: 10,
             },
             // @ts-expect-error - no authMode enum
             authMode: "AWS_IAM",
@@ -65,8 +65,9 @@ const BlogDashboardPage: React.FC = (): JSX.Element => {
           console.error(err);
         }
       } else if (viewPosts === "personal") {
-        const { data } = (await API.graphql(
-          graphqlOperation(listPosts, {
+        const { data } = (await API.graphql({
+          query: listPosts,
+          variables: {
             filter: {
               or: feed.map((user: string | null) => ({
                 userID: {
@@ -74,9 +75,9 @@ const BlogDashboardPage: React.FC = (): JSX.Element => {
                 },
               })),
             },
-            limit: 5,
-          }),
-        )) as GraphQLResult<{ listPosts: { items: Post[]; nextToken: string } }>;
+            limit: 10,
+          },
+        })) as GraphQLResult<{ listPosts: { items: Post[]; nextToken: string | null } }>;
 
         if (data?.listPosts) {
           dispatch(actions.setPosts(data.listPosts.items, data.listPosts.nextToken));

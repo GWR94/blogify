@@ -145,8 +145,6 @@ const Profile = (): JSX.Element => {
         profileImage,
       };
 
-      console.log(updatedUser);
-
       await API.graphql(
         graphqlOperation(updateUser, {
           input: updatedUser,
@@ -176,27 +174,23 @@ const Profile = (): JSX.Element => {
           </div>
         ) : (
           <>
-            <Typography variant="h4" style={{ textAlign: "center", marginTop: 10 }}>
+            <Typography
+              variant="h4"
+              className="app__title"
+              style={{ textAlign: "center", marginTop: 10 }}
+            >
               Profile
             </Typography>
             <Typography variant="subtitle1" gutterBottom style={{ textAlign: "center" }}>
-              To make changes to your profile, click the Edit Profile button and make your
-              changes.
+              To make changes to your profile, click the &quot;Edit Profile&quot; button,
+              and make your changes.
             </Typography>
             <Grid container spacing={2} style={{ marginTop: 20 }}>
               <Grid item xs={12}>
                 <div className="profile__image--container">
-                  {image ? (
-                    <div className="profile__image">
-                      <AmplifyS3Image imgKey={image.key} />
-                    </div>
-                  ) : (
-                    <img
-                      src={placeholder}
-                      alt="Profile Image"
-                      className="profile__image"
-                    />
-                  )}
+                  <div className="profile__image">
+                    <AmplifyS3Image imgKey={image?.key} />
+                  </div>
                   {isEditing && (
                     <>
                       <MuiButton
@@ -223,9 +217,17 @@ const Profile = (): JSX.Element => {
                     </>
                   )}
                   <div className="profile__count">
-                    <Typography>Followers: {followers.length}</Typography>
-                    <Typography>Following: {following.length}</Typography>
-                    <Typography>Posts: {userPosts.length}</Typography>
+                    <Typography>
+                      Following:{" "}
+                      <span className="profile__num">{following?.length ?? 0}</span>
+                    </Typography>
+                    <Typography>
+                      Followers:{" "}
+                      <span className="profile__num">{followers?.length ?? 0}</span>
+                    </Typography>
+                    <Typography>
+                      Posts: <span className="profile__num">{userPosts.length ?? 0}</span>
+                    </Typography>
                   </div>
                 </div>
               </Grid>
@@ -267,7 +269,7 @@ const Profile = (): JSX.Element => {
               {!isEditing ? (
                 <MuiButton
                   variant="contained"
-                  color="success"
+                  color="primary"
                   onClick={(): void => setEditing(true)}
                 >
                   Edit Profile
@@ -284,7 +286,7 @@ const Profile = (): JSX.Element => {
                   </MuiButton>
                   <MuiButton
                     variant="contained"
-                    color="success"
+                    color="primary"
                     onClick={handleUpdateProfile}
                   >
                     Update Profile

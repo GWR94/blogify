@@ -17,9 +17,7 @@ import { AppState } from "../../store/store";
 import LoginModal from "../auth/LoginModal";
 import { openSnackbar } from "../../utils/components/Notifier";
 import { breakpoints } from "../../utils";
-import { listPosts } from "../../graphql/queries";
 import * as authActions from "../../actions/auth.action";
-import * as postActions from "../../actions/posts.action";
 import SearchAutoComplete from "./SearchAutoComplete";
 
 const Header: React.FC = (): JSX.Element => {
@@ -28,7 +26,6 @@ const Header: React.FC = (): JSX.Element => {
   const dispatch = useDispatch();
   const mobile = useMediaQuery(breakpoints.only("xs"));
 
-  const [searchQuery, setQuery] = useState("");
   const [loginOpen, setLoginOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
 
@@ -58,6 +55,9 @@ const Header: React.FC = (): JSX.Element => {
             position: "relative",
             zIndex: 2,
             height: "70px",
+            background: "#3f51b5",
+            borderBottomLeftRadius: 5,
+            borderBottomRightRadius: 5,
           }}
         >
           <AppBar
@@ -79,7 +79,11 @@ const Header: React.FC = (): JSX.Element => {
                     className="header__title"
                     role="button"
                     tabIndex={0}
-                    onClick={(): void => history.push("/dashboard")}
+                    onClick={(): void => {
+                      history.push("/dashboard");
+                      setNavOpen(false);
+                    }}
+                    style={{ cursor: "pointer" }}
                   >
                     <Typography variant="h5" style={{ textDecoration: "none" }}>
                       Blogify
@@ -108,7 +112,10 @@ const Header: React.FC = (): JSX.Element => {
                       className="header__link"
                       tabIndex={0}
                       role="button"
-                      onClick={(): void => history.push("/create")}
+                      onClick={(): void => {
+                        history.push("/create");
+                        setNavOpen(false);
+                      }}
                     >
                       Create Post
                     </div>
@@ -116,7 +123,10 @@ const Header: React.FC = (): JSX.Element => {
                       className="header__link"
                       tabIndex={0}
                       role="button"
-                      onClick={(): void => history.push("/profile")}
+                      onClick={(): void => {
+                        history.push("/profile");
+                        setNavOpen(false);
+                      }}
                     >
                       View Profile
                     </div>
@@ -124,7 +134,10 @@ const Header: React.FC = (): JSX.Element => {
                       className="header__link"
                       tabIndex={0}
                       role="button"
-                      onClick={(): void => history.push("/dashboard?view=personal")}
+                      onClick={(): void => {
+                        history.push("/dashboard?view=personal");
+                        setNavOpen(false);
+                      }}
                     >
                       View Feed
                     </div>
@@ -143,7 +156,10 @@ const Header: React.FC = (): JSX.Element => {
                       className="header__link"
                       tabIndex={0}
                       role="button"
-                      onClick={(): void => setLoginOpen(true)}
+                      onClick={(): void => {
+                        setLoginOpen(true);
+                        setNavOpen(false);
+                      }}
                     >
                       Login
                     </div>
