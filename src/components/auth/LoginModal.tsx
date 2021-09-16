@@ -7,6 +7,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import { Auth } from "aws-amplify";
+import { useHistory } from "react-router-dom";
 import { CognitoHostedUIIdentityProvider } from "./LoginPage";
 import Button from "../../utils/components/MuiButton";
 import { breakpoints } from "../../utils";
@@ -18,6 +19,8 @@ interface LoginModalProps {
 
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }): JSX.Element => {
   const fullscreen = useMediaQuery(breakpoints.down("xs"));
+  const history = useHistory();
+
   return (
     <Dialog open={open} onClose={onClose} fullScreen={fullscreen}>
       <div className="login__modal--container">
@@ -72,7 +75,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }): JSX.Element =
             color="info"
             variant="outlined"
             onClick={(): void => {
-              console.log("TODO"); // FIXME
+              history.push("/dashboard?view=all");
             }}
           >
             Search
