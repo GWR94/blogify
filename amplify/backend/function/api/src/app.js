@@ -6,20 +6,10 @@ or in the "license" file accompanying this file. This file is distributed on an 
 See the License for the specific language governing permissions and limitations under the License.
 */
 
-/* Amplify Params - DO NOT EDIT
-	ENV
-	REGION
-	TABLE_NAME
-Amplify Params - DO NOT EDIT */
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const AWS = require("aws-sdk");
-
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config("./env");
-}
 
 AWS.config.update({
   region: "eu-west-2",

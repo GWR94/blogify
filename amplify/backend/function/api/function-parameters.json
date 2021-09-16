@@ -1,9 +1,3 @@
 {
-  "lambdaLayers": [],
-  "environmentVariableList": [
-    {
-      "cloudFormationParameterName": "tableName",
-      "environmentVariableName": "TABLE_NAME"
-    }
-  ]
+  "lambdaLayers": []
 }

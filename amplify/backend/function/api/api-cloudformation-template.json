@@ -15,9 +15,6 @@
     },
     "s3Key": {
       "Type": "String"
-    },
-    "tableName": {
-      "Type": "String"
     }
   },
   "Conditions": {
@@ -72,9 +69,6 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
-            },
-            "TABLE_NAME": {
-              "Ref": "tableName"
             }
           }
         },
@@ -95,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "blogifyLambdaRole954441fc",
+            "blogifyLambdaRolec4f198cf",
             {
               "Fn::Join": [
                 "",
                 [
-                  "blogifyLambdaRole954441fc",
+                  "blogifyLambdaRolec4f198cf",
                   "-",
                   {
                     "Ref": "env"
