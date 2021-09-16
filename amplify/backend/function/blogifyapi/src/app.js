@@ -9,10 +9,7 @@ See the License for the specific language governing permissions and limitations 
 /* Amplify Params - DO NOT EDIT
 	ENV
 	REGION
-	API_BLOGIFY_GRAPHQLAPIIDOUTPUT
-	API_BLOGIFY_GRAPHQLAPIENDPOINTOUTPUT
-	ACCESS_KEY_AWS
-	SECRET_KEY_AWS
+	TABLE_NAME
 Amplify Params - DO NOT EDIT */
 
 const express = require("express");

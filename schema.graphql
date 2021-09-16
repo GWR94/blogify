@@ -13,7 +13,7 @@ type User
   ) {
   id: ID!
   username: String!
-  email: String!
+  social: String
   name: String!
   following: [String]!
   followers: [String]!

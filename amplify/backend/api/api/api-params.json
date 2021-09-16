@@ -2,15 +2,14 @@
   "paths": [
     {
       "name": "/api",
-      "lambdaFunction": "api",
+      "lambdaFunction": "blogifyapi",
       "privacy": {
         "private": true,
         "auth": [
           "/POST",
           "/GET",
           "/PUT",
-          "/PATCH",
-          "/DELETE"
+          "/PATCH"
         ]
       },
       "policyResourceName": "/api"
@@ -20,7 +19,7 @@
   "apiName": "api",
   "functionArns": [
     {
-      "lambdaFunction": "api"
+      "lambdaFunction": "blogifyapi"
     }
   ],
   "privacy": {
@@ -32,7 +31,7 @@
   "dependsOn": [
     {
       "category": "function",
-      "resourceName": "api",
+      "resourceName": "blogifyapi",
       "attributes": [
         "Name",
         "Arn"

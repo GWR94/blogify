@@ -10,7 +10,7 @@ export const registerUser = /* GraphQL */ `
     registerUser(input: $input, condition: $condition) {
       id
       username
-      email
+      social
       name
       following
       followers
@@ -50,7 +50,7 @@ export const updateUser = /* GraphQL */ `
     updateUser(input: $input, condition: $condition) {
       id
       username
-      email
+      social
       name
       following
       followers
@@ -90,7 +90,7 @@ export const deleteUser = /* GraphQL */ `
     deleteUser(input: $input, condition: $condition) {
       id
       username
-      email
+      social
       name
       following
       followers
@@ -142,7 +142,7 @@ export const createPost = /* GraphQL */ `
       user {
         id
         username
-        email
+        social
         name
         following
         followers
@@ -194,7 +194,7 @@ export const updatePost = /* GraphQL */ `
       user {
         id
         username
-        email
+        social
         name
         following
         followers
@@ -246,7 +246,7 @@ export const deletePost = /* GraphQL */ `
       user {
         id
         username
-        email
+        social
         name
         following
         followers
@@ -306,7 +306,7 @@ export const createComment = /* GraphQL */ `
         user {
           id
           username
-          email
+          social
           name
           following
           followers
@@ -350,7 +350,7 @@ export const updateComment = /* GraphQL */ `
         user {
           id
           username
-          email
+          social
           name
           following
           followers
@@ -394,7 +394,7 @@ export const deleteComment = /* GraphQL */ `
         user {
           id
           username
-          email
+          social
           name
           following
           followers

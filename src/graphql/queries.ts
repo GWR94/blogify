@@ -7,7 +7,7 @@ export const getUser = /* GraphQL */ `
     getUser(id: $id) {
       id
       username
-      email
+      social
       name
       following
       followers
@@ -56,7 +56,7 @@ export const getPost = /* GraphQL */ `
       user {
         id
         username
-        email
+        social
         name
         following
         followers
@@ -110,7 +110,7 @@ export const listPosts = /* GraphQL */ `
         user {
           id
           username
-          email
+          social
           name
           following
           followers
@@ -152,7 +152,7 @@ export const getComment = /* GraphQL */ `
         user {
           id
           username
-          email
+          social
           name
           following
           followers

@@ -19,7 +19,7 @@ export const onCreatePost = /* GraphQL */ `
       user {
         id
         username
-        email
+        social
         name
         following
         followers
@@ -68,7 +68,7 @@ export const onUpdatePost = /* GraphQL */ `
       user {
         id
         username
-        email
+        social
         name
         following
         followers
@@ -117,7 +117,7 @@ export const onDeletePost = /* GraphQL */ `
       user {
         id
         username
-        email
+        social
         name
         following
         followers
@@ -174,7 +174,7 @@ export const onCreateComment = /* GraphQL */ `
         user {
           id
           username
-          email
+          social
           name
           following
           followers
@@ -215,7 +215,7 @@ export const onUpdateComment = /* GraphQL */ `
         user {
           id
           username
-          email
+          social
           name
           following
           followers
@@ -256,7 +256,7 @@ export const onDeleteComment = /* GraphQL */ `
         user {
           id
           username
-          email
+          social
           name
           following
           followers

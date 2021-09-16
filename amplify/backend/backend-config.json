@@ -51,7 +51,7 @@
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "api",
+          "resourceName": "blogifyapi",
           "attributes": [
             "Name",
             "Arn"
@@ -67,27 +67,12 @@
     }
   },
   "function": {
-    "api": {
+    "blogifyapi": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "blogify",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ]
-        }
-      ]
+      "dependsOn": []
     }
   },
-  "hosting": {
-    "amplifyhosting": {
-      "service": "amplifyhosting",
-      "type": "cicd",
-      "lastPushTimeStamp": "2021-09-14T13:02:51.217Z"
-    }
-  }
+  "hosting": {}
 }

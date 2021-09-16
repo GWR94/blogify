@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { API, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation, Auth } from "aws-amplify";
 import BlogPostSummary from "./BlogPostSummary";
 import BlogPostList from "./BlogPostList";
 import Header from "../common/Header";
@@ -30,6 +30,7 @@ const BlogDashboardPage: React.FC = (): JSX.Element => {
     setLoading(true);
     const handleGetPosts = async (): Promise<void> => {
       let following: string[] = [];
+
       if (uid) {
         const { data } = (await API.graphql({
           query: getUser,

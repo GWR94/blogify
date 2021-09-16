@@ -8,15 +8,15 @@
         },
     
     
-          "functionapiName": {
+          "functionblogifyapiName": {
             "Type": "String",
-            "Default": "functionapiName"
+            "Default": "functionblogifyapiName"
           },
 
           
-          "functionapiArn": {
+          "functionblogifyapiArn": {
             "Type": "String",
-            "Default": "functionapiArn"
+            "Default": "functionblogifyapiArn"
           }
 
           
@@ -174,7 +174,7 @@
                             
                             {
 
-                                "Ref": "functionapiArn"
+                                "Ref": "functionblogifyapiArn"
                             },
                             
                             "/invocations"
@@ -279,7 +279,7 @@
                           
                           {
 
-                            "Ref": "functionapiArn"
+                            "Ref": "functionblogifyapiArn"
                           },
                           
                           "/invocations"
@@ -336,12 +336,12 @@
       
         
 
-        "functionapiPermissionapi": {
+        "functionblogifyapiPermissionapi": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "FunctionName": 
                     {
-                        "Ref":  "functionapiName"
+                        "Ref":  "functionblogifyapiName"
                     },
                     
                     "Action": "lambda:InvokeFunction",

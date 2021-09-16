@@ -43,6 +43,5 @@ module.exports = {
       template: "./public/index.html",
       favicon: "./public/images/favicon.png",
     }),
-    new webpack.EnvironmentPlugin([]),
   ],
 };

@@ -16,20 +16,6 @@
     "s3Key": {
       "Type": "String"
     },
-    "accessKeyAws": {
-      "Type": "String"
-    },
-    "secretKeyAws": {
-      "Type": "String"
-    },
-    "apiblogifyGraphQLAPIIdOutput": {
-      "Type": "String",
-      "Default": "apiblogifyGraphQLAPIIdOutput"
-    },
-    "apiblogifyGraphQLAPIEndpointOutput": {
-      "Type": "String",
-      "Default": "apiblogifyGraphQLAPIEndpointOutput"
-    },
     "tableName": {
       "Type": "String"
     }
@@ -64,12 +50,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "api",
+            "blogifyapi",
             {
               "Fn::Join": [
                 "",
                 [
-                  "api",
+                  "blogifyapi",
                   "-",
                   {
                     "Ref": "env"
@@ -86,18 +72,6 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
-            },
-            "API_BLOGIFY_GRAPHQLAPIIDOUTPUT": {
-              "Ref": "apiblogifyGraphQLAPIIdOutput"
-            },
-            "API_BLOGIFY_GRAPHQLAPIENDPOINTOUTPUT": {
-              "Ref": "apiblogifyGraphQLAPIEndpointOutput"
-            },
-            "ACCESS_KEY_AWS": {
-              "Ref": "accessKeyAws"
-            },
-            "SECRET_KEY_AWS": {
-              "Ref": "secretKeyAws"
             },
             "TABLE_NAME": {
               "Ref": "tableName"
@@ -121,12 +95,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "blogifyLambdaRole76f0559b",
+            "blogifyLambdaRole235adc02",
             {
               "Fn::Join": [
                 "",
                 [
-                  "blogifyLambdaRole76f0559b",
+                  "blogifyLambdaRole235adc02",
                   "-",
                   {
                     "Ref": "env"
@@ -192,53 +166,6 @@
                   }
                 ]
               }
-            }
-          ]
-        }
-      }
-    },
-    "AmplifyResourcesPolicy": {
-      "DependsOn": [
-        "LambdaExecutionRole"
-      ],
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": "amplify-lambda-execution-policy",
-        "Roles": [
-          {
-            "Ref": "LambdaExecutionRole"
-          }
-        ],
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [
-                "appsync:GraphQL"
-              ],
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:appsync:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":",
-                      {
-                        "Ref": "AWS::AccountId"
-                      },
-                      ":apis/",
-                      {
-                        "Ref": "apiblogifyGraphQLAPIIdOutput"
-                      },
-                      "/types/Mutation/*"
-                    ]
-                  ]
-                }
-              ]
             }
           ]
         }
