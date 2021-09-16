@@ -71,8 +71,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }): JSX.Element =
           <Button
             color="info"
             variant="outlined"
-            onClick={() => {
-              console.log("TODO");
+            onClick={(): void => {
+              console.log("TODO"); // FIXME
             }}
           >
             Search
