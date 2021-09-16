@@ -1,0 +1,41 @@
+{
+  "paths": [
+    {
+      "name": "/api",
+      "lambdaFunction": "api",
+      "privacy": {
+        "private": true,
+        "auth": [
+          "/POST",
+          "/GET",
+          "/PUT",
+          "/PATCH"
+        ]
+      },
+      "policyResourceName": "/api"
+    }
+  ],
+  "resourceName": "blogifyapi",
+  "apiName": "blogifyapi",
+  "functionArns": [
+    {
+      "lambdaFunction": "api"
+    }
+  ],
+  "privacy": {
+    "auth": 1,
+    "unauth": 0,
+    "authRoleName": "amplify-blogify-prod-104524-authRole",
+    "unAuthRoleName": "amplify-blogify-prod-104524-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "api",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}
