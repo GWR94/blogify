@@ -95,7 +95,7 @@ const AppRouter = (): JSX.Element => {
         id,
         username: signInData?.username,
         name,
-        email,
+        social: email, // FIXME
         followers: [],
         following: [],
         savedPosts: [],

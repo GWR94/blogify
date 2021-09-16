@@ -77,7 +77,7 @@ const ProfileDialog = ({
     }
 
     try {
-      const data = await API.post("api", "/api/handle-unfollow", {
+      const data = await API.post("blogifyapi", "/api/handle-unfollow", {
         body: {
           authUserID: uid,
           followingUser,
@@ -126,7 +126,7 @@ const ProfileDialog = ({
     }
 
     try {
-      const data = await API.post("api", "/api/handle-follow", {
+      const data = await API.post("blogifyapi", "/api/handle-follow", {
         body: {
           authUserID: uid,
           followingUser,
