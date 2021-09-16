@@ -43,20 +43,6 @@
           ]
         }
       }
-    },
-    "blogifyapi": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "api",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
     }
   },
   "storage": {
@@ -65,12 +51,5 @@
       "providerPlugin": "awscloudformation"
     }
   },
-  "function": {
-    "api": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": []
-    }
-  }
+  "function": {}
 }

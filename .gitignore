@@ -4,7 +4,6 @@ public/dist/
 .env.development
 amplify/backend/function/blogifyapi/src/.env
 amplify/team-provider-info.json
-amplify/
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
