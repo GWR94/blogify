@@ -43,7 +43,7 @@ app.post("/api/handle-follow", (req, res) => {
   const { authUserID, followingUser } = req.body;
 
   const params = {
-    TableName: process.env.TABLE_NAME,
+    TableName: "User-iobxnd2thzac5azrrya3kdglke-prod",
     Key: {
       id: followingUser.id,
     },
@@ -64,7 +64,7 @@ app.post("/api/handle-follow", (req, res) => {
 app.post("/api/handle-unfollow", (req, res) => {
   const { authUserID, followingUser } = req.body;
   const params = {
-    TableName: process.env.TABLE_NAME,
+    TableName: "User-iobxnd2thzac5azrrya3kdglke-prod",
     Key: {
       id: followingUser.id,
     },
