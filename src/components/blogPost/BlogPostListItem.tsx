@@ -16,15 +16,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { API, graphqlOperation } from "aws-amplify";
 import { useHistory } from "react-router-dom";
 import { AppState, GraphQLResult } from "../../store/store";
-import { Post } from "../../store/posts.i";
-import { getUser } from "../../graphql/queries";
+import { Post, S3Image } from "../../store/posts.i";
+import { getUser, listPosts } from "../../graphql/queries";
 import UserImageLinked from "../common/UserImageLinked";
 import { breakpoints } from "../../utils";
 import DeleteDialog from "../common/DeleteDialog";
 import { deletePost } from "../../graphql/mutations";
 import { openSnackbar } from "../../utils/components/Notifier";
 import * as actions from "../../actions/posts.action";
-import { S3Image } from "../common/SearchAutoComplete";
+
+interface BlogPostListItemProps {
+  id: string;
+  tags: string[];
+  createdAt: string;
+  author: string;
+  title: string;
+  overview: string;
+  email: string;
+  userID: string;
+  search?: boolean;
+}
 
 const BlogPostListItem = ({
   id,
@@ -35,6 +46,7 @@ const BlogPostListItem = ({
   overview,
   email,
   userID,
+  search = false,
 }: Post): JSX.Element => {
   const { uid } = useSelector(({ auth }: AppState) => auth);
 
@@ -63,6 +75,25 @@ const BlogPostListItem = ({
     };
     getUserData();
   }, []);
+
+  const handleSearch = async (tag: string): Promise<void> => {
+    const { data } = (await API.graphql({
+      query: listPosts,
+      variables: {
+        filter: {
+          tags: {
+            contains: tag,
+          },
+        },
+      },
+      // @ts-expect-error - no authMode enum
+      authMode: "AWS_IAM",
+    })) as GraphQLResult<{ listPosts: { items: Post[]; nextToken: string | null } }>;
+    if (data?.listPosts.items) {
+      dispatch(actions.setPosts(data.listPosts.items, data.listPosts.nextToken));
+    }
+    if (!search) history.push(`/search?query=${tag}`);
+  };
 
   const handleDeletePost = async (): Promise<void> => {
     try {
@@ -150,6 +181,11 @@ const BlogPostListItem = ({
                 label={tag}
                 size={mobile ? "small" : "medium"}
                 className="list__tag"
+                style={{ cursor: "pointer", marginRight: 5 }}
+                onClick={(e): void => {
+                  e.stopPropagation();
+                  handleSearch(tag);
+                }}
               />
             ))}
           </div>

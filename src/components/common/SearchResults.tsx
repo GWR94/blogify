@@ -72,7 +72,7 @@ const SearchResults = (): JSX.Element => {
         </div>
         <Container>
           {posts.length > 0 ? (
-            posts.map((post) => <BlogPostListItem key={post.id} {...post} />)
+            posts.map((post) => <BlogPostListItem key={post.id} {...post} search />)
           ) : (
             <Paper elevation={4} className="list__noDataContainer">
               <Typography variant="h5" gutterBottom>
