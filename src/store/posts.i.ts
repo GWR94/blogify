@@ -37,6 +37,12 @@ export interface Post {
   public: boolean;
 }
 
+export interface S3Image {
+  key: string;
+  bucket: string;
+  region: string;
+}
+
 export interface UpdateCommentAction {
   type: typeof UPDATE_COMMENT;
   id: string;

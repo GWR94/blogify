@@ -18,13 +18,13 @@ import { useHistory } from "react-router-dom";
 import { AppState, GraphQLResult } from "../../store/store";
 import { Post } from "../../store/posts.i";
 import { getUser } from "../../graphql/queries";
-import { S3Image } from "../auth/Profile";
 import UserImageLinked from "../common/UserImageLinked";
 import { breakpoints } from "../../utils";
 import DeleteDialog from "../common/DeleteDialog";
 import { deletePost } from "../../graphql/mutations";
 import { openSnackbar } from "../../utils/components/Notifier";
 import * as actions from "../../actions/posts.action";
+import { S3Image } from "../common/SearchAutoComplete";
 
 const BlogPostListItem = ({
   id,

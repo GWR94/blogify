@@ -1,5 +1,4 @@
 import { AmplifyS3Image } from "@aws-amplify/ui-react";
-
 import {
   Dialog,
   DialogTitle,
@@ -18,10 +17,10 @@ import { Post } from "../../store/posts.i";
 import { AppState, GraphQLResult } from "../../store/store";
 import { breakpoints } from "../../utils";
 import LoginModal from "../auth/LoginModal";
-import { User } from "../auth/Profile";
 import placeholder from "../auth/img/placeholder.png";
 import * as actions from "../../actions/auth.action";
 import { openSnackbar } from "../../utils/components/Notifier";
+import { User } from "../../store/auth.i";
 
 interface ProfileDialogProps {
   isOpen: boolean;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { BlockquoteHTMLAttributes } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   CircularProgress,
@@ -18,11 +18,16 @@ import { Post } from "../../store/posts.i";
 import * as actions from "../../actions/posts.action";
 
 interface BlogPostListProps {
-  isLoading: boolean;
+  isLoading?: boolean;
   setViewPosts: (view: "all" | "personal") => void;
+  profile?: boolean;
 }
 
-const BlogPostList = ({ isLoading, setViewPosts }: BlogPostListProps): JSX.Element => {
+const BlogPostList = ({
+  isLoading,
+  setViewPosts,
+  profile = false,
+}: BlogPostListProps): JSX.Element => {
   // retrieve posts and nextToken from store
   const { posts, nextToken } = useSelector(({ posts }: AppState) => posts);
   const history = useHistory();
@@ -47,7 +52,7 @@ const BlogPostList = ({ isLoading, setViewPosts }: BlogPostListProps): JSX.Eleme
         <div className="list__loadingContainer">
           <CircularProgress size={50} className="list__loader" />
         </div>
-      ) : posts.length === 0 ? (
+      ) : posts.length === 0 && !profile ? (
         <Paper elevation={4} className="list__noDataContainer">
           <Typography variant="h5" gutterBottom>
             No Posts
@@ -68,7 +73,9 @@ const BlogPostList = ({ isLoading, setViewPosts }: BlogPostListProps): JSX.Eleme
             </Button>
             <Button
               color="primary"
-              onClick={(): void => setViewPosts("all")}
+              onClick={(): void =>
+                setViewPosts ? setViewPosts("all") : history.push("/dashboard?view=all")
+              }
               variant="outlined"
               size={mobile ? "small" : "medium"}
               style={{ margin: "10px 4px" }}

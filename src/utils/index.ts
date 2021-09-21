@@ -51,3 +51,7 @@ export const hasHostname = (hostname: string): boolean =>
 export const isLocalhost = hasLocalhost(window.location.hostname);
 
 export const breakpoints = createBreakpoints({});
+
+export const capitalize = (string: string): string => {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+};

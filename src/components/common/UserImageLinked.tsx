@@ -5,9 +5,9 @@ import React, { useEffect, useState } from "react";
 import { getUser } from "../../graphql/queries";
 import { Post } from "../../store/posts.i";
 import { GraphQLResult } from "../../store/store";
-import { User } from "../auth/Profile";
 import ProfileDialog from "./ProfileDialog";
 import placeholder from "../auth/img/placeholder.png";
+import { User } from "../../store/auth.i";
 
 interface UserImageLinkedProps {
   userID: string;

@@ -8,42 +8,25 @@ import {
 } from "@material-ui/core";
 import { API, Auth, graphqlOperation, Storage } from "aws-amplify";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AmplifyS3Image } from "@aws-amplify/ui-react";
 import { Redirect } from "react-router-dom";
 import Header from "../common/Header";
 import { getUser } from "../../graphql/queries";
 import { AppState, GraphQLResult } from "../../store/store";
 import MuiButton from "../../utils/components/MuiButton";
-import placeholder from "./img/placeholder.png";
 import { updateUser } from "../../graphql/mutations";
 import awsExports from "../../aws-exports";
-import { Post } from "../../store/posts.i";
+import { Post, S3Image } from "../../store/posts.i";
 import { openSnackbar } from "../../utils/components/Notifier";
 import { breakpoints } from "../../utils";
-
-export interface User {
-  id?: string;
-  username: string;
-  email: string;
-  name: string;
-  following: string[];
-  followers: string[];
-  savedPosts: string[];
-  posts?: {
-    items: Post[];
-  };
-  profileImage: S3Image | null;
-}
-
-export interface S3Image {
-  key: string;
-  bucket: string;
-  region: string;
-}
+import BlogPostList from "../blogPost/BlogPostList";
+import * as actions from "../../actions/posts.action";
+import { User } from "../../store/auth.i";
 
 const Profile = (): JSX.Element => {
   const { uid } = useSelector(({ auth }: AppState) => auth);
+  const dispatch = useDispatch();
 
   const [isLoading, setLoading] = useState(true);
   const [user, setUser] = useState<User>({
@@ -88,6 +71,7 @@ const Profile = (): JSX.Element => {
       });
       if (posts) setUserPosts(posts.items);
       if (profileImage) setImage(profileImage);
+      dispatch(actions.setPosts(posts?.items as Post[], null));
       setLoading(false);
     };
 
@@ -296,6 +280,7 @@ const Profile = (): JSX.Element => {
             </div>
           </>
         )}
+        <BlogPostList profile />
       </Container>
     </>
   );

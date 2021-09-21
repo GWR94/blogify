@@ -1,20 +1,12 @@
-import React, { useState } from "react";
-import { CircularProgress, Typography } from "@material-ui/core";
-import { API, Auth, graphqlOperation } from "aws-amplify";
-import { GraphQLResult } from "@aws-amplify/api";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { Typography } from "@material-ui/core";
+import { Auth } from "aws-amplify";
+import { useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import Button from "../../utils/components/MuiButton";
 import { openSnackbar } from "../../utils/components/Notifier";
 import { AppState } from "../../store/store";
-import * as actions from "../../actions/posts.action";
-import { listPosts } from "../../graphql/ownQueries";
-import { Post } from "../../store/posts.i";
-
-/**
- * TODO
- * [ ] Test isLoading(s)
- */
+import background from "./img/bg.jpg";
 
 export enum CognitoHostedUIIdentityProvider {
   Cognito = "COGNITO",
@@ -25,19 +17,13 @@ export enum CognitoHostedUIIdentityProvider {
 }
 
 const LoginPage = (): JSX.Element => {
-  const [isLoading, setLoading] = useState(false);
   const { uid } = useSelector(({ auth }: AppState) => auth);
   const history = useHistory();
-  const dispatch = useDispatch();
 
-  return isLoading ? (
-    <div>
-      <CircularProgress size={30} />
-    </div>
-  ) : uid ? (
+  return uid ? (
     <Redirect to="/dashboard" />
   ) : (
-    <div className="box-layout">
+    <div className="box-layout" style={{ background: `url(${background})` }}>
       <div className="box-layout__box">
         <div>
           <Typography
@@ -51,7 +37,11 @@ const LoginPage = (): JSX.Element => {
           >
             Blogify
           </Typography>
-          <Typography style={{ fontSize: "15px", marginBottom: "18px" }}>
+          <Typography gutterBottom>
+            Create and share posts that are interesting to{" "}
+            <span style={{ fontWeight: "bold" }}>you.</span>
+          </Typography>
+          <Typography style={{ fontSize: "15px", marginBottom: 18 }}>
             Let the world know what you&apos;re up to.
           </Typography>
           <button
@@ -61,11 +51,11 @@ const LoginPage = (): JSX.Element => {
                 await Auth.federatedSignIn({
                   provider: CognitoHostedUIIdentityProvider.Google,
                 });
+                history.push("/dashboard");
                 openSnackbar({
                   message: "Successfully logged in.",
                   severity: "success",
                 });
-                history.push("/dashboard");
               } catch (err) {
                 openSnackbar({
                   message: "Unable to login. Please try again.",
@@ -81,17 +71,14 @@ const LoginPage = (): JSX.Element => {
             type="button"
             onClick={async (): Promise<void> => {
               try {
-                const res = await Auth.federatedSignIn({
+                await Auth.federatedSignIn({
                   provider: CognitoHostedUIIdentityProvider.Facebook,
                 });
-                if (res) {
-                  openSnackbar({
-                    message: "Successfully logged in.",
-                    severity: "success",
-                  });
-                  console.log(res);
-                  history.push("/dashboard");
-                }
+                history.push("/dashboard");
+                openSnackbar({
+                  message: "Successfully logged in.",
+                  severity: "success",
+                });
               } catch (err) {
                 openSnackbar({
                   message: "Unable to login. Please try again.",
@@ -110,11 +97,11 @@ const LoginPage = (): JSX.Element => {
                 await Auth.federatedSignIn({
                   provider: CognitoHostedUIIdentityProvider.Amazon,
                 });
+                history.push("/dashboard");
                 openSnackbar({
                   message: "Successfully logged in.",
                   severity: "success",
                 });
-                history.push("/dashboard");
               } catch (err) {
                 openSnackbar({
                   message: "Unable to login. Please try again.",

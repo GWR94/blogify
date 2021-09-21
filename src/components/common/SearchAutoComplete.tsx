@@ -3,12 +3,13 @@ import { useHistory } from "react-router-dom";
 import { API } from "aws-amplify";
 import { useDispatch } from "react-redux";
 import { Autocomplete } from "@material-ui/lab";
-import { capitalize, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { listPosts } from "../../graphql/queries";
 import * as actions from "../../actions/posts.action";
 import { GraphQLResult } from "../../store/store";
 import { Post } from "../../store/posts.i";
 import { openSnackbar } from "../../utils/components/Notifier";
+import { capitalize } from "../../utils";
 
 interface AutoCompleteProps {
   // search query passed from parent (optional)
@@ -39,7 +40,7 @@ const SearchAutoComplete = ({
     "CSS",
     "Solidity",
     "Blockchain",
-    "Crypto",
+    "Cryptocurrency",
     "Strings",
     "Optimization",
   ];
@@ -56,6 +57,7 @@ const SearchAutoComplete = ({
    * @param searchQuery - The query that the user wishes to search for
    */
   const handleSearch = async (query: string): Promise<void> => {
+    console.log(capitalize(query));
     try {
       const { data } = (await API.graphql({
         query: listPosts,
@@ -71,7 +73,7 @@ const SearchAutoComplete = ({
       })) as GraphQLResult<{
         listPosts: { items: Post[]; nextToken: string | null };
       }>;
-      if (data) {
+      if (data?.listPosts.items) {
         // dispatch the action to store the posts and nextToken into the store.
         dispatch(actions.setPosts(data.listPosts.items, data.listPosts.nextToken));
         if (redirect) {
@@ -108,7 +110,7 @@ const SearchAutoComplete = ({
           onChange={(e): void => setQuery(e.target.value)}
           className="header__search"
           variant="outlined"
-          style={{ width: 220 }}
+          style={{ width: 220, marginBottom: 8 }}
           placeholder="Search Topic..."
         />
       )}

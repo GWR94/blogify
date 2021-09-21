@@ -32,9 +32,12 @@ const SearchResults = (): JSX.Element => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const query = params.get("query");
-    if (query) setQuery(query);
+    console.log(query);
+    if (query) {
+      setQuery(query);
+    }
     setLoading(false);
-  }, []);
+  }, [window.location]);
 
   const handleLoadNextPosts = async (): Promise<void> => {
     if (!nextToken) return;
@@ -47,6 +50,7 @@ const SearchResults = (): JSX.Element => {
     }
   };
 
+  console.log(searchQuery);
   return isLoading ? (
     <Loading />
   ) : (
@@ -102,7 +106,7 @@ const SearchResults = (): JSX.Element => {
                 )}
                 <Button
                   color="primary"
-                  onClick={(): void => history.push("/dashboard?view=public")}
+                  onClick={(): void => history.push("/dashboard?view=all")}
                   variant="outlined"
                   size={mobile ? "small" : "medium"}
                   style={{ margin: "10px 4px" }}
