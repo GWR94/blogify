@@ -14,6 +14,9 @@
   text-align: center;
   width: 30rem;
   border: 2px solid grey;
+  @media (max-width: 600px) {
+    width: 90%;
+  }
 }
 
 .box-layout__title {

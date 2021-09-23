@@ -47,7 +47,7 @@ const BlogPostListItem = ({
   email,
   userID,
   search = false,
-}: Post): JSX.Element => {
+}: BlogPostListItemProps): JSX.Element => {
   const { uid } = useSelector(({ auth }: AppState) => auth);
 
   const history = useHistory();
@@ -110,100 +110,99 @@ const BlogPostListItem = ({
 
   return (
     <>
-      <Paper
-        elevation={2}
-        className="list__container"
+      <div
         tabIndex={0}
         role="button"
         onClick={(e): void => {
-          if (e.target === e.currentTarget) {
-            history.push(`/read/${id}`);
-          }
+          e.stopPropagation();
+          history.push(`/read/${id}`);
         }}
       >
-        <div className="list__header">
-          {!mobile && (
-            <UserImageLinked userID={userID as string} size={mobile ? 40 : 60} />
-          )}
-          <div
-            style={{
-              // give margin if user is authenticated to allow menu IconButton to not overlap
-              marginRight: uid ? 20 : 0,
-            }}
-          >
-            <Typography className="list__title">{title}</Typography>
-            <Typography className="list__overview">{overview}</Typography>
-          </div>
-        </div>
-
-        {uid === userID && (
-          <div className="list__edit">
-            <IconButton onClick={(): void => setMenuOpen(true)}>
-              <MoreVertRounded ref={anchorRef} />
-            </IconButton>
-            <Menu
-              open={menuOpen}
-              onClose={(): void => setMenuOpen(false)}
-              anchorEl={anchorRef.current}
-              transformOrigin={{
-                vertical: -40,
-                horizontal: "right",
-              }}
-            >
-              <MenuItem onClick={(): void => history.push(`/edit/${id}`)}>
-                Edit Post
-              </MenuItem>
-              <MenuItem
-                onClick={(): void => {
-                  setDeleteOpen(true);
-                  setMenuOpen(false);
-                }}
-              >
-                Delete Post
-              </MenuItem>
-            </Menu>
-          </div>
-        )}
-
-        <div
-          className="list__authorContainer"
-          tabIndex={0}
-          role="button"
-          onClick={(e): void => {
-            e.stopPropagation();
-            history.push(`/read/${id}`);
-          }}
-        >
-          <div className="list-item__tags">
-            {tags.map((tag: string) => (
-              <Chip
-                key={tag}
-                label={tag}
-                size={mobile ? "small" : "medium"}
-                className="list__tag"
-                style={{ cursor: "pointer", marginRight: 5 }}
-                onClick={(e): void => {
-                  e.stopPropagation();
-                  handleSearch(tag);
-                }}
-              />
-            ))}
-          </div>
-          <div className="list__author">
-            {image && mobile && (
+        <Paper elevation={2} className="list__container">
+          <div className="list__header">
+            {!mobile && (
               <UserImageLinked userID={userID as string} size={mobile ? 40 : 60} />
             )}
-            <div>
-              <Typography className="list__author--text">
-                Written by <em>{author}</em>
-              </Typography>
-              <Typography className="list__author--text">
-                on <span> {moment(createdAt).format("DD MMMM, YYYY")}</span>
-              </Typography>
+            <div
+              style={{
+                // give margin if user is authenticated to allow menu IconButton to not overlap
+                marginRight: uid ? 20 : 0,
+              }}
+            >
+              <Typography className="list__title">{title}</Typography>
+              <Typography className="list__overview">{overview}</Typography>
             </div>
           </div>
-        </div>
-      </Paper>
+
+          {uid === userID && (
+            <div className="list__edit">
+              <IconButton onClick={(): void => setMenuOpen(true)}>
+                <MoreVertRounded ref={anchorRef} />
+              </IconButton>
+              <Menu
+                open={menuOpen}
+                onClose={(): void => setMenuOpen(false)}
+                anchorEl={anchorRef.current}
+                transformOrigin={{
+                  vertical: -40,
+                  horizontal: "right",
+                }}
+              >
+                <MenuItem onClick={(): void => history.push(`/edit/${id}`)}>
+                  Edit Post
+                </MenuItem>
+                <MenuItem
+                  onClick={(): void => {
+                    setDeleteOpen(true);
+                    setMenuOpen(false);
+                  }}
+                >
+                  Delete Post
+                </MenuItem>
+              </Menu>
+            </div>
+          )}
+
+          <div
+            className="list__authorContainer"
+            tabIndex={0}
+            role="button"
+            onClick={(e): void => {
+              e.stopPropagation();
+              history.push(`/read/${id}`);
+            }}
+          >
+            <div className="list-item__tags">
+              {tags.map((tag: string) => (
+                <Chip
+                  key={tag}
+                  label={tag}
+                  size={mobile ? "small" : "medium"}
+                  className="list__tag"
+                  style={{ cursor: "pointer", marginRight: 5 }}
+                  onClick={(e): void => {
+                    e.stopPropagation();
+                    handleSearch(tag);
+                  }}
+                />
+              ))}
+            </div>
+            <div className="list__author">
+              {image && mobile && (
+                <UserImageLinked userID={userID as string} size={mobile ? 40 : 60} />
+              )}
+              <div>
+                <Typography className="list__author--text">
+                  Written by <em>{author}</em>
+                </Typography>
+                <Typography className="list__author--text">
+                  on <span> {moment(createdAt).format("DD MMMM, YYYY")}</span>
+                </Typography>
+              </div>
+            </div>
+          </div>
+        </Paper>
+      </div>
       <DeleteDialog
         isOpen={deleteOpen}
         onClose={(): void => setDeleteOpen(false)}
