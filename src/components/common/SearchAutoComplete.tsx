@@ -68,8 +68,9 @@ const SearchAutoComplete = ({
               contains: capitalize(query),
             },
           },
-          authMode: "AWS_IAM",
         },
+        // @ts-expect-error - no authMode enum
+        authMode: "AWS_IAM",
       })) as GraphQLResult<{
         listPosts: { items: Post[]; nextToken: string | null };
       }>;

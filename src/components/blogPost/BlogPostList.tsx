@@ -38,9 +38,12 @@ const BlogPostList = ({
 
   const handleLoadNextPosts = async (): Promise<void> => {
     if (!nextToken) return;
-    const { data } = (await API.graphql(
-      graphqlOperation(listPosts, { nextToken }),
-    )) as GraphQLResult<{ listPosts: { items: Post[]; nextToken: string | null } }>;
+    const { data } = (await API.graphql({
+      query: listPosts,
+      variables: { nextToken },
+      // @ts-expect-error - no authMode enum
+      authMode: "AWS_IAM",
+    })) as GraphQLResult<{ listPosts: { items: Post[]; nextToken: string | null } }>;
     if (data?.listPosts.items) {
       dispatch(actions.loadMorePosts(data.listPosts.items, data.listPosts.nextToken));
     }

@@ -32,7 +32,6 @@ const SearchResults = (): JSX.Element => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const query = params.get("query");
-    console.log(query);
     if (query) {
       setQuery(query);
     }
@@ -44,6 +43,8 @@ const SearchResults = (): JSX.Element => {
     const { data } = (await API.graphql({
       query: listPosts,
       variables: { nextToken },
+      // @ts-expect-error - no authMode enum
+      authMode: "AWS_IAM",
     })) as GraphQLResult<{ listPosts: { items: Post[]; nextToken: string | null } }>;
     if (data) {
       dispatch(actions.loadMorePosts(data.listPosts.items, data.listPosts.nextToken));

@@ -1,4 +1,4 @@
-import { API, graphqlOperation } from "aws-amplify";
+import { API, Auth, graphqlOperation } from "aws-amplify";
 import createBreakpoints from "@material-ui/core/styles/createBreakpoints";
 import { getPost, getUser } from "../graphql/queries";
 import { Post, User } from "../API";
@@ -35,6 +35,15 @@ export const getPostData = async (id: string): Promise<Post> => {
     }),
   )) as GraphQLResult<{ getPost: Post }>;
   return data?.getPost as Post;
+};
+
+export const isLoggedIn = async (): Promise<boolean> => {
+  try {
+    await Auth.currentAuthenticatedUser();
+    return true;
+  } catch {
+    return false;
+  }
 };
 
 // amplify

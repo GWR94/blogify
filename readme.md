@@ -70,4 +70,3 @@ The status of the project is it's currently in a working state and pushed to pro
 ## Todo
 
 - Tests will be refactored and uploaded ASAP
-- Clicking on a tag should push users to search page based on tag

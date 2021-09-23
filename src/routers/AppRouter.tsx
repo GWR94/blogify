@@ -18,6 +18,7 @@ import awsExports from "../aws-exports";
 import SearchResults from "../components/common/SearchResults";
 import { getUserData } from "../utils";
 import Loading from "../components/common/Loading";
+import Amplify from "aws-amplify";
 
 export const history = createHistory();
 
@@ -26,6 +27,10 @@ const AppRouter = (): JSX.Element => {
 
   const dispatch = useDispatch();
   const { uid } = useSelector(({ auth }: AppState) => auth);
+
+  useEffect(() => {
+    if (!uid) Auth.signOut();
+  }, []);
 
   const getAuthData = async (): Promise<void> => {
     setLoading(true);

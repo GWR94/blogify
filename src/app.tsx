@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import Amplify, { Auth } from "aws-amplify";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import AppRouter, { history } from "./routers/AppRouter";
-import configureStore from "./store/store";
+import configureStore, { AppState } from "./store/store";
 import "normalize.css/normalize.css";
 import "./styles/styles.scss";
 import awsExports from "./aws-exports";
