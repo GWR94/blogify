@@ -1,16 +1,16 @@
 .button__login {
-	background: $blue;
-	border: none;
-	color: white;
+  background: $blue;
+  border: none;
+  color: white;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-	font-weight: 300;
+  font-weight: 300;
   height: 40px;
   width: 40px;
-	line-height: 1;
-	text-decoration: none;
-	border-radius: 5px;
+  line-height: 1;
+  text-decoration: none;
+  border-radius: 5px;
   margin: 0 3px 10px;
   &--facebook {
     @extend .button__login;
@@ -22,7 +22,7 @@
   }
   &--amazon {
     @extend .button__login;
-    background: #FF9900;
+    background: #ff9900;
   }
   > i {
     font-size: 1.2rem;
@@ -37,7 +37,7 @@
   display: absolute;
   left: calc(50% - 10px);
   background: #fff;
-  color: rgba(0,0,0,0.7);
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .login__buttonContainer {
@@ -54,6 +54,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  padding: 24px 12px;
   margin: 0 40px;
 }
 

@@ -70,7 +70,7 @@ const UserImageLinked = ({ userID, size }: UserImageLinkedProps): JSX.Element =>
         className="profile__image"
         role="button"
         tabIndex={0}
-        style={{ height: size, width: size, marginRight: 20 }}
+        style={{ height: size, width: size, marginRight: 20, cursor: "pointer" }}
         onClick={(e): void => {
           setOpen(true);
           return e.stopPropagation();

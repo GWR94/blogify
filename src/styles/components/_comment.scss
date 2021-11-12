@@ -12,6 +12,10 @@
   justify-content: flex-end;
 }
 
+.commentBox__button {
+  cursor: not-allowed;
+}
+
 .comment__item {
   display: flex;
   padding: 8px 12px;

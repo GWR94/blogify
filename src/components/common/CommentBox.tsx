@@ -10,10 +10,10 @@ import * as actions from "../../actions/posts.action";
 
 interface CommentBoxProps {
   postID: string;
-  userID: string;
+  disabled: boolean;
 }
 
-const CommentBox = ({ postID }: CommentBoxProps): JSX.Element => {
+const CommentBox = ({ postID, disabled }: CommentBoxProps): JSX.Element => {
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
 
@@ -52,18 +52,22 @@ const CommentBox = ({ postID }: CommentBoxProps): JSX.Element => {
       <TextField
         multiline
         maxRows={5}
+        disabled={disabled}
         minRows={3}
         fullWidth
         value={content}
         onChange={(e): void => setContent(e.target.value)}
+        style={{ cursor: disabled ? "not-allowed" : "pointer" }}
         variant="outlined"
       />
       <div className="commentBox__actions">
         <Button
           color="success"
           size="small"
+          className="commentBox__button"
+          disabled={disabled}
           onClick={handleAddComment}
-          style={{ marginTop: 4 }}
+          style={{ cursor: "not-allowed !important", marginTop: 4 }}
         >
           Add Comment
         </Button>
