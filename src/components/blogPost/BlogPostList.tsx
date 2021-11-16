@@ -8,7 +8,7 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { API, graphqlOperation } from "aws-amplify";
+import { API } from "aws-amplify";
 import BlogPostListItem from "./BlogPostListItem";
 import { AppState, GraphQLResult } from "../../store/store";
 import Button from "../../utils/components/MuiButton";

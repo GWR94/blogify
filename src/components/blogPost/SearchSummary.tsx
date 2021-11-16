@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Container, Typography } from "@material-ui/core";
+import { Container, createTheme, Typography, useMediaQuery } from "@material-ui/core";
 import Button from "../../utils/components/MuiButton";
 import LoginModal from "../auth/LoginModal";
 
 const SearchSummary = (): JSX.Element => {
   const [isOpen, setOpen] = useState(false);
+  const theme = createTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <>
       <section className="page-header">
@@ -24,6 +26,7 @@ const SearchSummary = (): JSX.Element => {
               style={{
                 borderTopRightRadius: 0,
                 borderBottomRightRadius: 0,
+                fontSize: mobile ? "12px" : "14px",
               }}
             >
               Login to View Feed
@@ -31,9 +34,11 @@ const SearchSummary = (): JSX.Element => {
             <Button
               color="info"
               variant={!isOpen ? "contained" : "outlined"}
+              className="summary__button"
               style={{
                 borderTopLeftRadius: 0,
                 borderBottomLeftRadius: 0,
+                fontSize: mobile ? "12px" : "14px",
               }}
             >
               {isOpen ? "View" : "Viewing"} Public Posts

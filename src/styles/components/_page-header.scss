@@ -2,6 +2,9 @@
   margin-bottom: 10px !important;
   background: #dce8ff;
   padding: 12px 24px;
+  @media (max-width: $sm-breakpoint) {
+    padding: 4px 8px;
+  }
 }
 
 .page-header__actions {
@@ -13,6 +16,9 @@
   margin: 0;
 }
 
-.search__container {
+.page-header__container {
   padding: 12px 24px;
+  @media (max-width: $sm-breakpoint) {
+    padding: 5px 10px;
+  }
 }

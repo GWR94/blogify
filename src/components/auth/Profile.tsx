@@ -24,6 +24,11 @@ import BlogPostList from "../blogPost/BlogPostList";
 import * as actions from "../../actions/posts.action";
 import { User } from "../../store/auth.i";
 
+interface UpdateProfileInput {
+  name: string;
+  email?: string;
+}
+
 const Profile = (): JSX.Element => {
   const { uid } = useSelector(({ auth }: AppState) => auth);
   const dispatch = useDispatch();
@@ -82,10 +87,11 @@ const Profile = (): JSX.Element => {
     const { email, name } = user;
     try {
       const authUser = await Auth.currentAuthenticatedUser();
-      const res = await Auth.updateUserAttributes(authUser, {
-        email,
+      const input: UpdateProfileInput = {
         name,
-      });
+      };
+      if (email) input.email = email;
+      const res = await Auth.updateUserAttributes(authUser, input);
       if (res === "SUCCESS") {
         await API.graphql(
           graphqlOperation(updateUser, {
@@ -160,8 +166,9 @@ const Profile = (): JSX.Element => {
           <>
             <Typography
               variant="h4"
+              gutterBottom
               className="app__title"
-              style={{ textAlign: "center", marginTop: 10 }}
+              style={{ textAlign: "center", marginTop: 10, fontWeight: "bold" }}
             >
               Profile
             </Typography>
@@ -219,11 +226,10 @@ const Profile = (): JSX.Element => {
                 <TextField
                   value={username}
                   variant="outlined"
-                  disabled={!isEditing}
+                  disabled
                   fullWidth
                   size={mobile ? "small" : "medium"}
                   label="Username"
-                  onChange={(e): void => setUser({ ...user, username: e.target.value })}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>

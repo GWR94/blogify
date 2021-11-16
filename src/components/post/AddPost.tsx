@@ -39,7 +39,7 @@ const AddPostPage = (): JSX.Element => {
     <>
       <Header />
       <div className="page-header">
-        <Container>
+        <Container className="page-header__container">
           <Typography variant="h4" className="app__title">
             Create Post
           </Typography>

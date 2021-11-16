@@ -179,7 +179,11 @@ const BlogPostListItem = ({
                   label={tag}
                   size={mobile ? "small" : "medium"}
                   className="list__tag"
-                  style={{ cursor: "pointer", marginRight: 5 }}
+                  style={{
+                    cursor: "pointer",
+                    marginRight: 5,
+                    marginBottom: mobile ? 8 : "auto",
+                  }}
                   onClick={(e): void => {
                     e.stopPropagation();
                     handleSearch(tag);
