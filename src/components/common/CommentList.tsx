@@ -31,15 +31,6 @@ const CommentList = ({ postID, userID }: CommentListProps): JSX.Element => {
           <Typography>Be the first to comment below.</Typography>
         )}
         <CommentBox postID={postID} disabled={uid === null} />
-        {!uid && (
-          <Typography>
-            Please login{" "}
-            <span role="button" tabIndex={0} onClick={(): void => setOpen(true)}>
-              here
-            </span>{" "}
-            to add a comment
-          </Typography>
-        )}
       </div>
       <LoginModal open={isOpen} onClose={(): void => setOpen(false)} />
     </>

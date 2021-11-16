@@ -81,13 +81,19 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }): JSX.Element =
             Search
           </Button>
         </div>
-      </div>
-
-      <DialogActions>
-        <Button color="secondary" onClick={onClose}>
+        <Button
+          color="secondary"
+          onClick={onClose}
+          className="login__button"
+          style={{
+            position: "absolute",
+            bottom: 0,
+            right: 0,
+          }}
+        >
           Close
         </Button>
-      </DialogActions>
+      </div>
     </Dialog>
   );
 };

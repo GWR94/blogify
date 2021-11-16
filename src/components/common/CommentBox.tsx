@@ -1,4 +1,4 @@
-import { TextField } from "@material-ui/core";
+import { TextField, Typography } from "@material-ui/core";
 import { API, graphqlOperation } from "aws-amplify";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,7 @@ interface CommentBoxProps {
 
 const CommentBox = ({ postID, disabled }: CommentBoxProps): JSX.Element => {
   const [content, setContent] = useState("");
+  const [isOpen, setOpen] = useState(false);
   const dispatch = useDispatch();
 
   const { uid } = useSelector(({ auth }: AppState) => auth);
@@ -60,7 +61,24 @@ const CommentBox = ({ postID, disabled }: CommentBoxProps): JSX.Element => {
         style={{ cursor: disabled ? "not-allowed" : "pointer" }}
         variant="outlined"
       />
-      <div className="commentBox__actions">
+      <div
+        className="commentBox__actions"
+        style={{ justifyContent: uid ? "flex-end" : "space-between" }}
+      >
+        {!uid && (
+          <Typography>
+            Please login{" "}
+            <span
+              role="button"
+              tabIndex={0}
+              onClick={(): void => setOpen(true)}
+              style={{ cursor: "pointer" }}
+            >
+              here
+            </span>{" "}
+            to add a comment
+          </Typography>
+        )}
         <Button
           color="success"
           size="small"
