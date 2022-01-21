@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { FormControl, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
-import * as actions from "../../actions/filters.action";
+import * as actions from "../../slices/filters.action";
 import moment from "moment";
 import { AppState } from "../../store/store";
 

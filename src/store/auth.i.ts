@@ -27,14 +27,12 @@ export interface User {
 }
 
 export interface LoginAction {
-  type: typeof LOGIN;
   uid: string;
   name: string;
   email: string;
 }
 
 export interface UpdateUserAction {
-  type: typeof UPDATE_USER;
   updates: Partial<AuthState>;
 }
 

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { API, graphqlOperation } from "aws-amplify";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { Container, Typography } from "@material-ui/core";
 import BlogPostForm from "../common/BlogPostForm";
-import * as actions from "../../actions/posts.action";
+import { postsSlice } from "../../slices/post.slice";
 import { AppState, GraphQLResult } from "../../store/store";
 import { Post } from "../../store/posts.i";
 import Header from "../common/Header";
@@ -43,7 +43,7 @@ const EditPostPage = ({ id }: EditPostProps): JSX.Element => {
           },
         }),
       )) as GraphQLResult<{ updatePost: Post }>;
-      dispatch(actions.editPost(id, post));
+      dispatch(postsSlice.actions.editPost({ id, updates: post }));
       console.log(data);
 
       openSnackbar({
@@ -60,6 +60,10 @@ const EditPostPage = ({ id }: EditPostProps): JSX.Element => {
     history.push("/dashboard");
   };
 
+  if (!uid) {
+    openSnackbar({ severity: "error", message: "Please login to create a post." });
+    return <Redirect to="/" />;
+  }
   return (
     <>
       <Header />

@@ -1,4 +1,4 @@
-import { Badge, IconButton, Paper, Tooltip, Typography } from "@material-ui/core";
+import { Badge, IconButton, Paper, Typography } from "@material-ui/core";
 import {
   DeleteRounded,
   FavoriteBorderRounded,
@@ -11,7 +11,7 @@ import { deleteComment, updateComment } from "../../graphql/mutations";
 import { AppState } from "../../store/store";
 import { openSnackbar } from "../../utils/components/Notifier";
 import UserImageLinked from "./UserImageLinked";
-import * as actions from "../../actions/posts.action";
+import { postsSlice } from "../../slices/post.slice";
 import { Comment } from "../../store/posts.i";
 import DeleteDialog from "./DeleteDialog";
 
@@ -36,7 +36,7 @@ const CommentListItem = ({ comment }: CommentProps): JSX.Element => {
           },
         }),
       );
-      dispatch(actions.deleteComment(comment.id));
+      dispatch(postsSlice.actions.deleteComment({ id: comment.id }));
     } catch (err) {
       openSnackbar({
         message: "Unable to remove comment. Please try again.",
@@ -77,7 +77,9 @@ const CommentListItem = ({ comment }: CommentProps): JSX.Element => {
         }),
       );
     }
-    dispatch(actions.updateComment(comment.id, updatedComment));
+    dispatch(
+      postsSlice.actions.updateComment({ id: comment.id, updates: updatedComment }),
+    );
   };
 
   return (

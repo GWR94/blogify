@@ -6,7 +6,7 @@ import { createComment } from "../../graphql/mutations";
 import { AppState, GraphQLResult } from "../../store/store";
 import Button from "../../utils/components/MuiButton";
 import { Comment } from "../../store/posts.i";
-import * as actions from "../../actions/posts.action";
+import { postsSlice } from "../../slices/post.slice";
 
 interface CommentBoxProps {
   postID: string;
@@ -34,12 +34,14 @@ const CommentBox = ({ postID, disabled }: CommentBoxProps): JSX.Element => {
       )) as GraphQLResult<{ createComment: Comment }>;
       const comment = data?.createComment as Comment;
       dispatch(
-        actions.addComment({
-          id: comment.id,
-          content: comment.content,
-          likes: comment.likes,
-          postID: comment.postID,
-          userID: comment.userID,
+        postsSlice.actions.addComment({
+          comment: {
+            id: comment.id,
+            content: comment.content,
+            likes: comment.likes,
+            postID: comment.postID,
+            userID: comment.userID,
+          },
         }),
       );
       setContent("");

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { API, graphqlOperation, Auth } from "aws-amplify";
+import { API } from "aws-amplify";
 import BlogPostSummary from "./BlogPostSummary";
 import BlogPostList from "./BlogPostList";
 import Header from "../common/Header";
 import SearchSummary from "./SearchSummary";
 import { AppState, GraphQLResult } from "../../store/store";
 import { getUser, listPosts } from "../../graphql/queries";
-import * as actions from "../../actions/posts.action";
+import { postsSlice } from "../../slices/post.slice";
 import { Post } from "../../store/posts.i";
-import { User } from "../auth/Profile";
+import { User } from "../../store/auth.i";
 
 const BlogDashboardPage: React.FC = (): JSX.Element => {
   const { uid } = useSelector(({ auth }: AppState) => auth);
@@ -35,7 +35,6 @@ const BlogDashboardPage: React.FC = (): JSX.Element => {
         const { data } = (await API.graphql({
           query: getUser,
           variables: { id: uid, limit: 5 },
-          // @ts-expect-error - no authMode enum
           authMode: "AWS_IAM",
         })) as GraphQLResult<{ getUser: User }>;
         following = data?.getUser?.following ?? [];
@@ -54,12 +53,14 @@ const BlogDashboardPage: React.FC = (): JSX.Element => {
               },
               limit: 10,
             },
-            // @ts-expect-error - no authMode enum
             authMode: "AWS_IAM",
           })) as GraphQLResult<{ listPosts: { items: Post[]; nextToken: string } }>;
           if (data?.listPosts) {
             dispatch(
-              actions.setPublicPosts(data.listPosts.items, data.listPosts.nextToken),
+              postsSlice.actions.setPublicPosts({
+                posts: data.listPosts.items,
+                nextToken: data.listPosts.nextToken,
+              }),
             );
           }
         } catch (err) {
@@ -81,7 +82,12 @@ const BlogDashboardPage: React.FC = (): JSX.Element => {
         })) as GraphQLResult<{ listPosts: { items: Post[]; nextToken: string | null } }>;
 
         if (data?.listPosts) {
-          dispatch(actions.setPosts(data.listPosts.items, data.listPosts.nextToken));
+          dispatch(
+            postsSlice.actions.setPosts({
+              posts: data.listPosts.items,
+              nextToken: data.listPosts.nextToken,
+            }),
+          );
         }
       }
       setLoading(false);

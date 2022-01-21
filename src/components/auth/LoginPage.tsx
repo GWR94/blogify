@@ -2,7 +2,7 @@ import React from "react";
 import { Typography } from "@material-ui/core";
 import { Auth } from "aws-amplify";
 import { useSelector } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Button from "../../utils/components/MuiButton";
 import { openSnackbar } from "../../utils/components/Notifier";
 import { AppState } from "../../store/store";
@@ -19,10 +19,8 @@ export enum CognitoHostedUIIdentityProvider {
 const LoginPage = (): JSX.Element => {
   const { uid } = useSelector(({ auth }: AppState) => auth);
   const history = useHistory();
-
-  return uid ? (
-    <Redirect to="/dashboard" />
-  ) : (
+  if (!uid) history.push("/dashboard");
+  return (
     <div className="box-layout" style={{ background: `url(${background})` }}>
       <div className="box-layout__box">
         <div>

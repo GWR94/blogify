@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { API, Auth } from "aws-amplify";
+import { Auth } from "aws-amplify";
 import { useHistory } from "react-router-dom";
 import Headroom from "react-headroom";
 import {
   AppBar,
-  capitalize,
   ClickAwayListener,
   Collapse,
   Container,
@@ -17,7 +16,7 @@ import { AppState } from "../../store/store";
 import LoginModal from "../auth/LoginModal";
 import { openSnackbar } from "../../utils/components/Notifier";
 import { breakpoints } from "../../utils";
-import * as authActions from "../../actions/auth.action";
+import { authSlice } from "../../slices/auth.slice";
 import SearchAutoComplete from "./SearchAutoComplete";
 
 const Header: React.FC = (): JSX.Element => {
@@ -32,7 +31,7 @@ const Header: React.FC = (): JSX.Element => {
   const handleSignOut = async (): Promise<void> => {
     try {
       history.push("/");
-      dispatch(authActions.logout());
+      dispatch(authSlice.actions.logout());
       await Auth.signOut({ global: true });
       openSnackbar({
         message: "Successfully signed out.",

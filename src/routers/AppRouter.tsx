@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import BlogDashboardPage from "../components/blogPost/BlogDashboard";
 import NotFoundPage from "../components/common/NotFound";
 import LoginPage from "../components/auth/LoginPage";
-import * as actions from "../actions/auth.action";
+import { authSlice } from "../slices/auth.slice";
 import AddPost from "../components/post/AddPost";
 import EditPost from "../components/post/EditPost";
 import ReadPost from "../components/post/ReadPost";
@@ -18,7 +18,6 @@ import awsExports from "../aws-exports";
 import SearchResults from "../components/common/SearchResults";
 import { getUserData } from "../utils";
 import Loading from "../components/common/Loading";
-import Amplify from "aws-amplify";
 
 export const history = createHistory();
 
@@ -42,7 +41,13 @@ const AppRouter = (): JSX.Element => {
           user?.id ??
           user.signInUserSession?.idToken?.payload?.sub;
         if (user) {
-          dispatch(actions.login(id, user.attributes.name, user.attributes.email));
+          dispatch(
+            authSlice.actions.login({
+              uid: id,
+              name: user.attributes.name,
+              email: user.attributes.email,
+            }),
+          );
           setLoading(false);
           return;
         }
@@ -83,7 +88,7 @@ const AppRouter = (): JSX.Element => {
       const user = await getUserData(id as string);
       if (user) {
         dispatch(
-          actions.updateUser({
+          authSlice.actions.updateUser({
             followers: (user.followers as string[]) ?? [],
             following: (user.following as string[]) ?? [],
           }),
@@ -130,7 +135,7 @@ const AppRouter = (): JSX.Element => {
         break;
       }
       case "signOut":
-        dispatch(actions.logout());
+        dispatch(authSlice.actions.logout());
         break;
       default:
         break;

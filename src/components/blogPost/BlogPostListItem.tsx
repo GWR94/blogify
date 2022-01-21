@@ -23,7 +23,7 @@ import { breakpoints } from "../../utils";
 import DeleteDialog from "../common/DeleteDialog";
 import { deletePost } from "../../graphql/mutations";
 import { openSnackbar } from "../../utils/components/Notifier";
-import * as actions from "../../actions/posts.action";
+import { postsSlice } from "../../slices/post.slice";
 
 interface BlogPostListItemProps {
   id: string;
@@ -66,7 +66,6 @@ const BlogPostListItem = ({
       const { data } = (await API.graphql({
         query: getUser,
         variables: { id: userID },
-        // @ts-expect-error - no enum for authMode
         authMode: "AWS_IAM",
       })) as GraphQLResult<{ getUser: { profileImage: S3Image } }>;
       if (data) {
@@ -86,11 +85,15 @@ const BlogPostListItem = ({
           },
         },
       },
-      // @ts-expect-error - no authMode enum
       authMode: "AWS_IAM",
     })) as GraphQLResult<{ listPosts: { items: Post[]; nextToken: string | null } }>;
     if (data?.listPosts.items) {
-      dispatch(actions.setPosts(data.listPosts.items, data.listPosts.nextToken));
+      dispatch(
+        postsSlice.actions.setPosts({
+          posts: data.listPosts.items,
+          nextToken: data.listPosts.nextToken,
+        }),
+      );
     }
     if (!search) history.push(`/search?query=${tag}`);
   };
@@ -98,7 +101,7 @@ const BlogPostListItem = ({
   const handleDeletePost = async (): Promise<void> => {
     try {
       await API.graphql(graphqlOperation(deletePost, { input: { id } }));
-      dispatch(actions.removePost(id as string));
+      dispatch(postsSlice.actions.removePost({ id: id as string }));
     } catch (err) {
       openSnackbar({
         message: "Unable to Delete Post. Please Try Again.",

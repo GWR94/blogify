@@ -44,56 +44,46 @@ export interface S3Image {
 }
 
 export interface UpdateCommentAction {
-  type: typeof UPDATE_COMMENT;
   id: string;
   updates: Partial<Comment>;
 }
 
 export interface AddPostAction {
-  type: typeof ADD_POST;
   post: Post;
 }
 
 export interface SetCommentsAction {
-  type: typeof SET_COMMENTS;
   comments: Comment[];
 }
 
 export interface DeleteCommentAction {
-  type: typeof DELETE_COMMENT;
   id: string;
 }
 
 export interface AddCommentAction {
-  type: typeof ADD_COMMENT;
   comment: Comment;
 }
 
 export interface RemovePostAction {
-  type: typeof REMOVE_POST;
   id: string;
 }
 
 export interface EditPostAction {
-  type: typeof EDIT_POST;
   id: string;
   updates: Partial<Post>;
 }
 
 export interface SetPostsAction {
-  type: typeof SET_POSTS;
   posts: Post[];
   nextToken: string | null;
 }
 
 export interface SetPublicPostsAction {
-  type: typeof SET_PUBLIC_POSTS;
   posts: Post[];
   nextToken: string | null;
 }
 
 export interface LoadMorePostsAction {
-  type: typeof LOAD_MORE_POSTS;
   posts: Post[];
   nextToken: string | null;
 }

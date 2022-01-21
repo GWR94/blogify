@@ -11,9 +11,9 @@ import LoginModal from "../auth/LoginModal";
 import BlogPostListItem from "../blogPost/BlogPostListItem";
 import Header from "./Header";
 import SearchAutoComplete from "./SearchAutoComplete";
-import * as actions from "../../actions/posts.action";
 import { Post } from "../../store/posts.i";
 import Loading from "./Loading";
+import { postsSlice } from "../../slices/post.slice";
 
 const SearchResults = (): JSX.Element => {
   // retrieve posts, nextToken and uid from store
@@ -43,11 +43,15 @@ const SearchResults = (): JSX.Element => {
     const { data } = (await API.graphql({
       query: listPosts,
       variables: { nextToken },
-      // @ts-expect-error - no authMode enum
       authMode: "AWS_IAM",
     })) as GraphQLResult<{ listPosts: { items: Post[]; nextToken: string | null } }>;
     if (data) {
-      dispatch(actions.loadMorePosts(data.listPosts.items, data.listPosts.nextToken));
+      dispatch(
+        postsSlice.actions.loadMorePosts({
+          posts: data.listPosts.items,
+          nextToken: data.listPosts.nextToken,
+        }),
+      );
     }
   };
 

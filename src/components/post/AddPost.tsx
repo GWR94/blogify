@@ -4,7 +4,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import { Container, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import BlogPostForm from "../common/BlogPostForm";
-import * as actions from "../../actions/posts.action";
+import { postsSlice } from "../../slices/post.slice";
 import Header from "../common/Header";
 import { createPost } from "../../graphql/mutations";
 import { Post } from "../../store/posts.i";
@@ -23,7 +23,7 @@ const AddPostPage = (): JSX.Element => {
         }),
       )) as GraphQLResult<{ createPost: Post }>;
       if (data) {
-        dispatch(actions.addPost(data.createPost));
+        dispatch(postsSlice.actions.addPost({ post: data.createPost }));
         history.push("/dashboard");
       }
     } catch (err) {

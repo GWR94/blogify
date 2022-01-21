@@ -21,7 +21,7 @@ import { Post, S3Image } from "../../store/posts.i";
 import { openSnackbar } from "../../utils/components/Notifier";
 import { breakpoints } from "../../utils";
 import BlogPostList from "../blogPost/BlogPostList";
-import * as actions from "../../actions/posts.action";
+import { postsSlice } from "../../slices/post.slice";
 import { User } from "../../store/auth.i";
 
 interface UpdateProfileInput {
@@ -76,7 +76,9 @@ const Profile = (): JSX.Element => {
       });
       if (posts) setUserPosts(posts.items);
       if (profileImage) setImage(profileImage);
-      dispatch(actions.setPosts(posts?.items as Post[], null));
+      dispatch(
+        postsSlice.actions.setPosts({ posts: posts?.items as Post[], nextToken: null }),
+      );
       setLoading(false);
     };
 

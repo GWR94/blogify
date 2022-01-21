@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import Amplify, { Auth } from "aws-amplify";
 import { Provider, useSelector } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
 import AppRouter, { history } from "./routers/AppRouter";
-import configureStore, { AppState } from "./store/store";
+import store, { AppState } from "./store/store";
 import "normalize.css/normalize.css";
 import "./styles/styles.scss";
 import awsExports from "./aws-exports";
@@ -60,14 +59,11 @@ Amplify.configure({
   },
 });
 
-const persist = configureStore();
 const App = (): JSX.Element => {
   return (
-    <Provider store={persist.store}>
-      <PersistGate loading={null} persistor={persist.persistor}>
-        <Notifier />
-        <AppRouter />
-      </PersistGate>
+    <Provider store={store}>
+      <Notifier />
+      <AppRouter />
     </Provider>
   );
 };

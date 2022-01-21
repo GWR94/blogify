@@ -5,11 +5,11 @@ import { useDispatch } from "react-redux";
 import { Autocomplete } from "@material-ui/lab";
 import { TextField } from "@material-ui/core";
 import { listPosts } from "../../graphql/queries";
-import * as actions from "../../actions/posts.action";
 import { GraphQLResult } from "../../store/store";
 import { Post } from "../../store/posts.i";
 import { openSnackbar } from "../../utils/components/Notifier";
 import { capitalize } from "../../utils";
+import { postsSlice } from "../../slices/post.slice";
 
 interface AutoCompleteProps {
   // search query passed from parent (optional)
@@ -69,14 +69,18 @@ const SearchAutoComplete = ({
             },
           },
         },
-        // @ts-expect-error - no authMode enum
         authMode: "AWS_IAM",
       })) as GraphQLResult<{
         listPosts: { items: Post[]; nextToken: string | null };
       }>;
       if (data?.listPosts.items) {
         // dispatch the action to store the posts and nextToken into the store.
-        dispatch(actions.setPosts(data.listPosts.items, data.listPosts.nextToken));
+        dispatch(
+          postsSlice.actions.setPosts({
+            posts: data.listPosts.items,
+            nextToken: data.listPosts.nextToken,
+          }),
+        );
         if (redirect) {
           history.push(`/search?query=${query}`);
         }

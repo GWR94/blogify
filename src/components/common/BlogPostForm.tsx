@@ -16,7 +16,7 @@ import { BlogPostFormProps, BlogPostFormState } from "../../interfaces/BlogPostF
 import Button from "../../utils/components/MuiButton";
 import { openSnackbar } from "../../utils/components/Notifier";
 import { deletePost } from "../../graphql/mutations";
-import * as actions from "../../actions/posts.action";
+import { postsSlice } from "../../slices/post.slice";
 
 const BlogPostForm: React.FC<BlogPostFormProps> = ({ post, onSubmit }): JSX.Element => {
   const history = useHistory();
@@ -49,7 +49,7 @@ const BlogPostForm: React.FC<BlogPostFormProps> = ({ post, onSubmit }): JSX.Elem
           },
         }),
       );
-      dispatch(actions.removePost(post?.id as string));
+      dispatch(postsSlice.actions.removePost({ id: post?.id as string }));
       openSnackbar({
         message: "Post successfully deleted.",
         severity: "success",

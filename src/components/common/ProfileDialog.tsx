@@ -13,12 +13,12 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../graphql/mutations";
 import { getUser } from "../../graphql/queries";
+import { authSlice } from "../../slices/auth.slice";
 import { Post } from "../../store/posts.i";
 import { AppState, GraphQLResult } from "../../store/store";
 import { breakpoints } from "../../utils";
 import LoginModal from "../auth/LoginModal";
 import placeholder from "../auth/img/placeholder.png";
-import * as actions from "../../actions/auth.action";
 import { openSnackbar } from "../../utils/components/Notifier";
 import { User } from "../../store/auth.i";
 
@@ -93,7 +93,7 @@ const ProfileDialog = ({
     }
 
     dispatch(
-      actions.updateUser({
+      authSlice.actions.updateUser({
         following: authUser.following.filter((follow) => follow !== user.id),
       }),
     );
@@ -141,7 +141,7 @@ const ProfileDialog = ({
     }
 
     dispatch(
-      actions.updateUser({
+      authSlice.actions.updateUser({
         following: [...authUser?.following, user.id as string],
       }),
     );

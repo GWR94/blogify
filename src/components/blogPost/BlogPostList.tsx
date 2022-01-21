@@ -15,11 +15,11 @@ import Button from "../../utils/components/MuiButton";
 import { breakpoints } from "../../utils";
 import { listPosts } from "../../graphql/queries";
 import { Post } from "../../store/posts.i";
-import * as actions from "../../actions/posts.action";
+import { postsSlice } from "../../slices/post.slice";
 
 interface BlogPostListProps {
   isLoading?: boolean;
-  setViewPosts: (view: "all" | "personal") => void;
+  setViewPosts?: (view: "all" | "personal") => void;
   profile?: boolean;
 }
 
@@ -41,11 +41,15 @@ const BlogPostList = ({
     const { data } = (await API.graphql({
       query: listPosts,
       variables: { nextToken },
-      // @ts-expect-error - no authMode enum
       authMode: "AWS_IAM",
     })) as GraphQLResult<{ listPosts: { items: Post[]; nextToken: string | null } }>;
     if (data?.listPosts.items) {
-      dispatch(actions.loadMorePosts(data.listPosts.items, data.listPosts.nextToken));
+      dispatch(
+        postsSlice.actions.loadMorePosts({
+          posts: data.listPosts.items,
+          nextToken: data.listPosts.nextToken,
+        }),
+      );
     }
   };
 

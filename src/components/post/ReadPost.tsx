@@ -7,7 +7,7 @@ import { Post } from "../../API";
 import Header from "../common/Header";
 import ReadQuillEditor from "../common/ReadQuillEditor";
 import CommentList from "../common/CommentList";
-import * as actions from "../../actions/posts.action";
+import { postsSlice } from "../../slices/post.slice";
 import { Comment } from "../../store/posts.i";
 import { getPost } from "../../graphql/queries";
 import { GraphQLResult } from "../../store/store";
@@ -26,13 +26,16 @@ const ReadPost = ({ id }: ReadPostProps): JSX.Element => {
       const { data } = (await API.graphql({
         query: getPost,
         variables: { id },
-        // @ts-expect-error - don't have enum for authMode
         authMode: "AWS_IAM",
       })) as GraphQLResult<{
         getPost: Post;
       }>;
       setPost(data?.getPost);
-      dispatch(actions.setComments((data?.getPost?.comments?.items as Comment[]) ?? []));
+      dispatch(
+        postsSlice.actions.setComments({
+          comments: (data?.getPost?.comments?.items as Comment[]) ?? [],
+        }),
+      );
     };
     getPostData();
   }, []);

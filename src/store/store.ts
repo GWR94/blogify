@@ -1,13 +1,13 @@
-import { createStore, combineReducers, applyMiddleware, compose, Store } from "redux";
-import { persistStore, persistReducer, Persistor } from "redux-persist";
-import storageSession from "redux-persist/lib/storage/session";
-import thunk from "redux-thunk";
+import { configureStore, Store, compose } from "@reduxjs/toolkit";
 import authReducer from "../reducers/auth.reducer";
 import postsReducer from "../reducers/posts.reducer";
 import filtersReducer from "../reducers/filters.reducer";
 import { AuthState } from "./auth.i";
 import { FiltersState } from "./filters.i";
 import { PostsState } from "./posts.i";
+import { authSlice } from "../slices/auth.slice";
+import { postsSlice } from "../slices/post.slice";
+import { filtersSlice } from "../slices/filter.slice";
 
 declare global {
   interface Window {
@@ -16,17 +16,9 @@ declare global {
   }
 }
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const persistConfig = {
-  key: "root",
-  storage: storageSession,
-  whitelist: ["auth", "posts"],
-};
-
-export interface GraphQLResult<T = object> {
+export interface GraphQLResult<T = Record<string, unknown>> {
   data?: T;
-  errors?: [object];
+  errors?: [Record<string, unknown>];
   extensions?: {
     [key: string]: any;
   };
@@ -38,19 +30,14 @@ export interface AppState {
   filters: FiltersState;
 }
 
-const rootReducer = combineReducers<AppState>({
-  auth: authReducer,
-  posts: postsReducer,
-  filters: filtersReducer,
+export type RootState = ReturnType<typeof store.getState>;
+
+export const store: Store = configureStore({
+  reducer: {
+    auth: authSlice.reducer,
+    posts: postsSlice.reducer,
+    filters: filtersSlice.reducer,
+  },
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-const store: Store<AppState> = createStore<AppState>(
-  persistedReducer,
-  composeEnhancers(applyMiddleware(thunk)),
-);
-
-export default (): { store: Store<AppState>; persistor: Persistor } => {
-  const persistor: Persistor = persistStore(store);
-  return { store, persistor };
-};
+export default store;
